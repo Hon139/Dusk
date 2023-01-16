@@ -3,8 +3,6 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.nio.Buffer;
 
-import javafx.scene.paint.Color;
-
 import java.awt.Graphics2D;
 import java.awt.*;
 
@@ -49,12 +47,14 @@ public class Drone extends Entity {
         int width = 200;
         int height = 200;
 
-        BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
         Graphics2D g2d = bufferedImage.createGraphics();
+        g2d.setComposite(AlphaComposite.Src);
+        g2d.setColor(new Color(0,0,0,255));
+        g2d.drawRect(0, 0, 100, 100);
+        
 
-        //g2d.setColor(Color.orange);
-        //g2d.drawOval(100, 100, 100, 100);
 
         g2d.dispose();
         return bufferedImage; 

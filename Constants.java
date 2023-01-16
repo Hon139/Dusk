@@ -3,8 +3,8 @@ import java.awt.Color;
 import java.awt.Dimension; 
 public class Constants{
 
-    public static final int WIDTH = 1400;
-    public static final int HEIGHT = 1000;
+    public static final int WIDTH = 1500;
+    public static final int HEIGHT = 820;
     public static final int GROUND = 560;
     public static final int TICK_SPEED_MILLISECONDS = 20;
     public static final String GAME_NAME = "INPUT";
