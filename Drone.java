@@ -53,9 +53,6 @@ public class Drone extends Entity {
         g2d.setComposite(AlphaComposite.Src);
         g2d.setColor(new Color(0,0,0,255));
         g2d.drawRect(0, 0, 100, 100);
-        
-
-
         g2d.dispose();
         return bufferedImage; 
     }
@@ -63,6 +60,5 @@ public class Drone extends Entity {
     @Override
     void paintEntity(Graphics g) { 
         g.drawImage(rotateImage(getImage(), angleOfMovement),getX(),getY(),null);
- 
     }
 }
