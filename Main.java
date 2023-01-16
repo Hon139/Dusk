@@ -168,8 +168,8 @@ public class Main{
 
     public static void main(String [] args){
         main = new Main();
-        main.runMain();
-        //main.launchMainMenu();
+        //main.runMain();
+        main.launchMainMenu();
     }
 
     public class MainActionListener implements ActionListener{

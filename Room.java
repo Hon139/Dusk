@@ -1,5 +1,4 @@
 public class Room{
-
     private int length; 
     private int width;
     private Door leftDoor; 

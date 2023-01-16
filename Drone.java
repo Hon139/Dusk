@@ -52,9 +52,23 @@ public class Drone extends Entity {
         Graphics2D g2d = bufferedImage.createGraphics();
         g2d.setComposite(AlphaComposite.Src);
         g2d.setColor(new Color(0,0,0,255));
-        g2d.drawRect(0, 0, 100, 100);
+        g2d.setStroke(new BasicStroke(5));
+        g2d.drawOval(0, 0, 100, 100);
+        g2d.drawRect(0, 0, width, height);
         g2d.dispose();
         return bufferedImage; 
+    }
+
+    private void drawCircle(Graphics2D g2d,int centerX,int centerY,int radius){
+        centerX += radius;
+        centerY += radius; 
+
+        
+
+        g2d.drawOval(centerX, centerY, centerY, radius);
+        
+
+
     }
 
     @Override
