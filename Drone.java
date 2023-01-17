@@ -1,9 +1,5 @@
-import java.awt.Graphics;
-import java.awt.Image; 
 import java.awt.image.BufferedImage;
 import java.nio.Buffer;
-
-import java.awt.Graphics2D;
 import java.awt.*;
 
 public class Drone extends Entity {
@@ -35,13 +31,12 @@ public class Drone extends Entity {
         BufferedImage bufferedImage = (BufferedImage)image;
         BufferedImage rotatedImage = new BufferedImage(bufferedImage.getWidth(), bufferedImage.getHeight(), bufferedImage.getType());
         Graphics2D g2d = rotatedImage.createGraphics();
-        g2d.rotate(Math.toRadians(-this.angleOfMovement), bufferedImage.getWidth()/2, bufferedImage.getHeight()/2);
+        g2d.rotate(Math.toRadians(this.angleOfMovement), bufferedImage.getWidth()/2, bufferedImage.getHeight()/2);
         g2d.drawImage(bufferedImage, null, 0, 0);
         g2d.dispose();
         return rotatedImage;
     }
 //----------------------------
-
 
     public static BufferedImage customDrone(){
         int width = 200;
@@ -53,26 +48,21 @@ public class Drone extends Entity {
         g2d.setComposite(AlphaComposite.Src);
         g2d.setColor(new Color(0,0,0,255));
         g2d.setStroke(new BasicStroke(5));
-        g2d.drawOval(0, 0, 100, 100);
-        g2d.drawRect(0, 0, width, height);
+        drawCircle(g2d,width/2,height/2,100);
+
         g2d.dispose();
         return bufferedImage; 
     }
 
-    private void drawCircle(Graphics2D g2d,int centerX,int centerY,int radius){
-        centerX += radius;
-        centerY += radius; 
-
-        
-
-        g2d.drawOval(centerX, centerY, centerY, radius);
-        
-
-
+    private static void drawCircle(Graphics2D g2d,int centerX,int centerY,int diameter){
+        int radius = diameter/2; 
+        int startX = centerX - radius;
+        int startY = centerY - radius;
+        g2d.drawOval(startX, startY, diameter, diameter);
     }
 
     @Override
-    void paintEntity(Graphics g) { 
+    void paintEntity(Graphics g){ 
         g.drawImage(rotateImage(getImage(), angleOfMovement),getX(),getY(),null);
     }
 }

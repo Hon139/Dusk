@@ -51,6 +51,7 @@ public class Main{
         this.mainLayeredPane.removeAll();
         this.mainLayeredPane.add(gamePanel,JLayeredPane.DEFAULT_LAYER);
         this.mainLayeredPane.repaint();
+        this.frame.requestFocus();
         while(true){
             if (Constants.MOVEMENT_INPUT_DELAY <= System.currentTimeMillis()-lastMovementMillis){
                 if (leftKey){D1.rotate(-1);}
@@ -67,7 +68,6 @@ public class Main{
     public void launchMainMenu(){
         backgroundImage = new JLabel(new ImageIcon(".//Assets//static.jpg")); 
         backgroundImage.setBounds(new Rectangle(0,0,Constants.WIDTH,Constants.HEIGHT));
-        backgroundImage.setBackground(Color.RED);
         backgroundImage.setVisible(true);
         backgroundImage.setOpaque(true);
 
@@ -75,49 +75,22 @@ public class Main{
         title.setForeground(new Color(255,255,255,150));
         title.setFont(Constants.MENU_FONT);
 
-        exitButton = new JButton("Exit",Utilities.scaleImage(
-        new ImageIcon(".//Assets//MetalTexture.jpg"),
-        (int)Constants.BUTTON_SIZE.getWidth(),(int)Constants.BUTTON_SIZE.getHeight())); 
-        exitButton.setForeground(new Color(255,255,255));
-        exitButton.setBorderPainted(false);
+        exitButton = new JButton("Exit");
         exitButton.addActionListener(new MainActionListener());
-        exitButton.setBorder(null);
-        exitButton.setContentAreaFilled(false);
-        exitButton.setHorizontalTextPosition(JButton.CENTER);
-        exitButton.setVerticalTextPosition(JButton.CENTER);
-        exitButton.setBackground(new Color(72,72,72));
         exitButton.addMouseListener(new MainMouseListener());
-        exitButton.setFont(Constants.MENU_FONT);
+        Menus.FormatMenuButton(exitButton,(int)Constants.BUTTON_SIZE.getWidth(),(int)Constants.BUTTON_SIZE.getHeight(),".//Assets//MetalTexture.jpg");
 
-        settingButton = new JButton("Setting",Utilities.scaleImage(
-        new ImageIcon(".//Assets//MetalTexture.jpg"),
-        (int)Constants.BUTTON_SIZE.getWidth(),(int)Constants.BUTTON_SIZE.getHeight())); 
-        settingButton.setForeground(new Color(255,255,255));
-        settingButton.setBorderPainted(false);
+        settingButton = new JButton("Setting");
         settingButton.addActionListener(new MainActionListener());
-        settingButton.setBorder(null);
-        settingButton.setContentAreaFilled(false);
-        settingButton.setHorizontalTextPosition(JButton.CENTER);
-        settingButton.setVerticalTextPosition(JButton.CENTER);
-        settingButton.setBackground(new Color(72,72,72));
         settingButton.addMouseListener(new MainMouseListener());
-        settingButton.setFont(Constants.MENU_FONT);
+        Menus.FormatMenuButton(settingButton,(int)Constants.BUTTON_SIZE.getWidth(),(int)Constants.BUTTON_SIZE.getHeight(),".//Assets//MetalTexture.jpg");
 
-        playButton = new JButton("Play",Utilities.scaleImage(
-        new ImageIcon(".//Assets//MetalTexture.jpg"),
-        (int)Constants.BUTTON_SIZE.getWidth(),(int)Constants.BUTTON_SIZE.getHeight())); 
-        playButton.setForeground(new Color(255,255,255));
-        playButton.setBorderPainted(false);
+        playButton = new JButton("Play");
         playButton.addActionListener(new MainActionListener());
-        playButton.setBorder(null);
-        playButton.setContentAreaFilled(false);
-        playButton.setHorizontalTextPosition(JButton.CENTER);
-        playButton.setVerticalTextPosition(JButton.CENTER);
-        playButton.setBackground(new Color(72,72,72));
         playButton.addMouseListener(new MainMouseListener());
-        playButton.setFont(Constants.MENU_FONT);
+        Menus.FormatMenuButton(playButton,(int)Constants.BUTTON_SIZE.getWidth(),(int)Constants.BUTTON_SIZE.getHeight(),".//Assets//MetalTexture.jpg");
 
-        JPanel foregroundLayer = new JPanel(new FlowLayout()); 
+        JPanel foregroundLayer = new JPanel(new FlowLayout(FlowLayout.CENTER,1000,30)); 
         foregroundLayer.setBackground(new Color(0,0,0,0));
         foregroundLayer.setBounds(new Rectangle(0,0,Constants.WIDTH,Constants.HEIGHT));
         foregroundLayer.setOpaque(false);
@@ -126,7 +99,6 @@ public class Main{
         foregroundLayer.add(playButton);
         foregroundLayer.add(settingButton); 
         foregroundLayer.add(exitButton); 
-
 
         mainLayeredPane.add(backgroundImage,JLayeredPane.DEFAULT_LAYER);
         mainLayeredPane.add(foregroundLayer,JLayeredPane.PALETTE_LAYER);
