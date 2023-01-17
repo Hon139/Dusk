@@ -5,20 +5,15 @@ public class Main{
     JFrame frame; 
     JLayeredPane mainLayeredPane; 
     GraphicsPanel gamePanel; 
-
     JButton exitButton; 
     JButton settingButton;
     JButton playButton;
-
     JButton newLoadButton;
-
     JLabel backgroundImage;
     Drone D1; 
 
     long lastMovementMillis = 0;
-
     static Main main; 
-
     boolean leftKey = false; 
     boolean rightKey = false;
     boolean upKey = false;
@@ -47,17 +42,17 @@ public class Main{
     }
 
     public void runMain(){
-        D1 = new Drone(0, 0, 0, 10,Drone.customDrone() ,10);
+        D1 = new Drone(0, 0, 0, 10,Drone.createDroneImage() ,10);
         this.mainLayeredPane.removeAll();
         this.mainLayeredPane.add(gamePanel,JLayeredPane.DEFAULT_LAYER);
         this.mainLayeredPane.repaint();
+        this.frame.requestFocus();
         while(true){
             if (Constants.MOVEMENT_INPUT_DELAY <= System.currentTimeMillis()-lastMovementMillis){
                 if (leftKey){D1.rotate(-1);}
                 if (rightKey){D1.rotate(1);}
                 if (downKey){D1.move(-1);}
                 if (upKey){D1.move(1);}
-
             }
             this.gamePanel.repaint();
             try{Thread.sleep(Constants.TICK_SPEED_MILLISECONDS);} catch (InterruptedException e){}
@@ -65,71 +60,7 @@ public class Main{
     }
 
     public void launchMainMenu(){
-        backgroundImage = new JLabel(new ImageIcon(".//Assets//static.jpg")); 
-        backgroundImage.setBounds(new Rectangle(0,0,Constants.WIDTH,Constants.HEIGHT));
-        backgroundImage.setBackground(Color.RED);
-        backgroundImage.setVisible(true);
-        backgroundImage.setOpaque(true);
-
-        JLabel title = new JLabel(Constants.GAME_NAME); 
-        title.setForeground(new Color(255,255,255,150));
-        title.setFont(Constants.MENU_FONT);
-
-        exitButton = new JButton("Exit",Utilities.scaleImage(
-        new ImageIcon(".//Assets//MetalTexture.jpg"),
-        (int)Constants.BUTTON_SIZE.getWidth(),(int)Constants.BUTTON_SIZE.getHeight())); 
-        exitButton.setForeground(new Color(255,255,255));
-        exitButton.setBorderPainted(false);
-        exitButton.addActionListener(new MainActionListener());
-        exitButton.setBorder(null);
-        exitButton.setContentAreaFilled(false);
-        exitButton.setHorizontalTextPosition(JButton.CENTER);
-        exitButton.setVerticalTextPosition(JButton.CENTER);
-        exitButton.setBackground(new Color(72,72,72));
-        exitButton.addMouseListener(new MainMouseListener());
-        exitButton.setFont(Constants.MENU_FONT);
-
-        settingButton = new JButton("Setting",Utilities.scaleImage(
-        new ImageIcon(".//Assets//MetalTexture.jpg"),
-        (int)Constants.BUTTON_SIZE.getWidth(),(int)Constants.BUTTON_SIZE.getHeight())); 
-        settingButton.setForeground(new Color(255,255,255));
-        settingButton.setBorderPainted(false);
-        settingButton.addActionListener(new MainActionListener());
-        settingButton.setBorder(null);
-        settingButton.setContentAreaFilled(false);
-        settingButton.setHorizontalTextPosition(JButton.CENTER);
-        settingButton.setVerticalTextPosition(JButton.CENTER);
-        settingButton.setBackground(new Color(72,72,72));
-        settingButton.addMouseListener(new MainMouseListener());
-        settingButton.setFont(Constants.MENU_FONT);
-
-        playButton = new JButton("Play",Utilities.scaleImage(
-        new ImageIcon(".//Assets//MetalTexture.jpg"),
-        (int)Constants.BUTTON_SIZE.getWidth(),(int)Constants.BUTTON_SIZE.getHeight())); 
-        playButton.setForeground(new Color(255,255,255));
-        playButton.setBorderPainted(false);
-        playButton.addActionListener(new MainActionListener());
-        playButton.setBorder(null);
-        playButton.setContentAreaFilled(false);
-        playButton.setHorizontalTextPosition(JButton.CENTER);
-        playButton.setVerticalTextPosition(JButton.CENTER);
-        playButton.setBackground(new Color(72,72,72));
-        playButton.addMouseListener(new MainMouseListener());
-        playButton.setFont(Constants.MENU_FONT);
-
-        JPanel foregroundLayer = new JPanel(new FlowLayout()); 
-        foregroundLayer.setBackground(new Color(0,0,0,0));
-        foregroundLayer.setBounds(new Rectangle(0,0,Constants.WIDTH,Constants.HEIGHT));
-        foregroundLayer.setOpaque(false);
-        foregroundLayer.setVisible(true);
-        foregroundLayer.add(title);
-        foregroundLayer.add(playButton);
-        foregroundLayer.add(settingButton); 
-        foregroundLayer.add(exitButton); 
-
-
-        mainLayeredPane.add(backgroundImage,JLayeredPane.DEFAULT_LAYER);
-        mainLayeredPane.add(foregroundLayer,JLayeredPane.PALETTE_LAYER);
+        Menus.launchMainMenu(mainLayeredPane);
     }
 
     public void launchGameLoad(){
@@ -141,25 +72,13 @@ public class Main{
         title.setForeground(new Color(255,255,255,150));
         title.setFont(Constants.MENU_FONT);
 
-        newLoadButton = new JButton("Exit",Utilities.scaleImage(
-        new ImageIcon(".//Assets//MetalTexture.jpg"),
-        (int)Constants.BUTTON_SIZE.getWidth(),(int)Constants.BUTTON_SIZE.getHeight())); 
-        newLoadButton.setForeground(new Color(255,255,255));
-        newLoadButton.setBorderPainted(false);
+        newLoadButton = new JButton("Exit");
         newLoadButton.addActionListener(new MainActionListener());
-        newLoadButton.setBorder(null);
-        newLoadButton.setContentAreaFilled(false);
-        newLoadButton.setHorizontalTextPosition(JButton.CENTER);
-        newLoadButton.setVerticalTextPosition(JButton.CENTER);
-        newLoadButton.setBackground(new Color(72,72,72));
         newLoadButton.addMouseListener(new MainMouseListener());
-        newLoadButton.setFont(Constants.MENU_FONT);
+        Menus.FormatMenuButton(newLoadButton, 0, 0,Constants.BUTTON_TEXTURE_FILE_PATH);
 
         JPanel foregroundLayerLoadMenu = new JPanel(new FlowLayout()); 
-        foregroundLayerLoadMenu.setBackground(new Color(0,0,0,0));
-        foregroundLayerLoadMenu.setBounds(new Rectangle(0,0,Constants.WIDTH,Constants.HEIGHT));
-        foregroundLayerLoadMenu.setOpaque(false);
-        foregroundLayerLoadMenu.setVisible(true);
+        Menus.FormatMenuForegroundPanel(foregroundLayerLoadMenu);
         foregroundLayerLoadMenu.add(title);
         foregroundLayerLoadMenu.add(playButton);
         foregroundLayerLoadMenu.add(settingButton); 
@@ -177,11 +96,8 @@ public class Main{
             if (e.getSource() == exitButton){
                 frame.dispose();
             }
-
             if (e.getSource() == settingButton){
-
             }
-
             if (e.getSource() == playButton){
                 main.launchGameLoad(); 
             }
