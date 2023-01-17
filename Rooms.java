@@ -1,5 +1,4 @@
-public class Rooms{
-    
+public class Rooms{    
     private Door rootAirLock; 
 
 

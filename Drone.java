@@ -38,7 +38,7 @@ public class Drone extends Entity {
     }
 //----------------------------
 
-    public static BufferedImage customDrone(){
+    public static BufferedImage createDroneImage(){
         int width = 200;
         int height = 200;
 
@@ -49,6 +49,7 @@ public class Drone extends Entity {
         g2d.setColor(new Color(0,0,0,255));
         g2d.setStroke(new BasicStroke(5));
         drawCircle(g2d,width/2,height/2,100);
+        g2d.drawLine(0,width/2,height,width/2);
 
         g2d.dispose();
         return bufferedImage; 

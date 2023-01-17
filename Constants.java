@@ -7,14 +7,19 @@ public class Constants{
     public static final int HEIGHT = 820;
     public static final int GROUND = 560;
     public static final int TICK_SPEED_MILLISECONDS = 20;
-    public static final String GAME_NAME = "INPUT";
+    public static final String GAME_NAME = "SELTIN";
     public static final Font MENU_FONT = new Font("Monospaced", Font.PLAIN, 30); 
+    public static final Font TITLE_FONT = new Font("Monospaced", Font.PLAIN, 50); 
+
 
     public static final Color MENU_BUTTON_COLOR = new Color(1,1,1);
     public static final Color MENU_BUTTON_BACKGROUND_COLOR = new Color(72,72,72);
-    public static final Dimension BUTTON_SIZE = new Dimension(500,85); 
+    public static final Dimension BUTTON_SIZE = new Dimension(500,110); 
 
     public static final int MOVEMENT_INPUT_DELAY = 60;
+
+    public static final String BUTTON_TEXTURE_FILE_PATH = ".//Assets//MetalTexture.jpg";
+
 
     private Constants(){
     }
