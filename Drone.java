@@ -1,5 +1,4 @@
 import java.awt.image.BufferedImage;
-import java.nio.Buffer;
 import java.awt.*;
 
 public class Drone extends Entity {

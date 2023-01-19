@@ -2,9 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 public class Menus{
-    static JButton exitButton;
-    static JButton settingButton;
-    static JButton playButton;
+    static JButton newLoadButton;
+
     public static void FormatMenuButton(JButton menuButton,int imageWidth,int imageHeight,String image){
         menuButton.setForeground(new Color(255,255,255));
         menuButton.setBorderPainted(false);
@@ -33,26 +32,19 @@ public class Menus{
         mainLayeredPane.add(backgroundImage,JLayeredPane.DEFAULT_LAYER);
     }
 
-    public static void launchMainMenu(JLayeredPane mainLayeredPane){
+    public static void launchMainMenu(JLayeredPane mainLayeredPane,JButton playButton, JButton settingButton, JButton exitButton){
         mainLayeredPane.removeAll();
         setBackground(mainLayeredPane);
         JLabel title = new JLabel(Constants.GAME_NAME); 
         title.setForeground(new Color(255,255,255,150));
         title.setFont(Constants.TITLE_FONT);
 
-         exitButton = new JButton("Exit");
-        exitButton.addActionListener(new MainActionListener());
-        exitButton.addMouseListener(new MainMouseListener());
+        exitButton.setText("Exit");
         Menus.FormatMenuButton(exitButton,(int)Constants.BUTTON_SIZE.getWidth(),(int)Constants.BUTTON_SIZE.getHeight(),Constants.BUTTON_TEXTURE_FILE_PATH);
+        settingButton.setText("Setting");
 
-         settingButton = new JButton("Setting");
-        settingButton.addActionListener(new MainActionListener());
-        settingButton.addMouseListener(new MainMouseListener());
         Menus.FormatMenuButton(settingButton,(int)Constants.BUTTON_SIZE.getWidth(),(int)Constants.BUTTON_SIZE.getHeight(),Constants.BUTTON_TEXTURE_FILE_PATH);
-
-        playButton = new JButton("Play");
-        playButton.addActionListener(new MainActionListener());
-        playButton.addMouseListener(new MainMouseListener());
+        playButton.setText("Play");
         Menus.FormatMenuButton(playButton,(int)Constants.BUTTON_SIZE.getWidth(),(int)Constants.BUTTON_SIZE.getHeight(),Constants.BUTTON_TEXTURE_FILE_PATH);
 
         JPanel foregroundLayer = new JPanel(new FlowLayout(FlowLayout.CENTER,1000,40)); 
@@ -65,33 +57,27 @@ public class Menus{
         mainLayeredPane.add(foregroundLayer,JLayeredPane.PALETTE_LAYER);
     }
 
-    public static class MainActionListener implements ActionListener{
-        public void actionPerformed(ActionEvent e){
-        }
-    }
-    public class MainKeyListener implements KeyListener{   
-        public void keyPressed(KeyEvent e){
-            if (e.getSource() == exitButton){
-                 return; 
-            }
-        }
-        public void keyReleased(KeyEvent e){ 
-        }
-        public void keyTyped(KeyEvent e){
-        }           
-    }   
-    public static class MainMouseListener implements MouseListener{
-        public void mouseClicked(MouseEvent e){   // moves the box at the mouse location
-        }
-        public void mousePressed(MouseEvent e){   // MUST be implemented even if not used!
-        }
-        public void mouseReleased(MouseEvent e){  // MUST be implemented even if not used!
-        }
-        public void mouseEntered(MouseEvent e){   // MUST be implemented even if not used!
-        }
-        public void mouseExited(MouseEvent e){    // MUST be implemented even if not used!
-        }
-    }  
+    // public void launchGameLoad(){
+    //     mainLayeredPane.removeAll();
+    //     mainLayeredPane.add(backgroundImage,JLayeredPane.DEFAULT_LAYER);
+    //     frame.repaint();
 
-    
+    //     JLabel title = new JLabel(Constants.GAME_NAME); 
+    //     title.setForeground(new Color(255,255,255,150));
+    //     title.setFont(Constants.MENU_FONT);
+
+    //     newLoadButton = new JButton("Exit");
+    //     newLoadButton.addActionListener(new MainActionListener());
+    //     newLoadButton.addMouseListener(new MainMouseListener());
+    //     Menus.FormatMenuButton(newLoadButton, 0, 0,Constants.BUTTON_TEXTURE_FILE_PATH);
+
+    //     JPanel foregroundLayerLoadMenu = new JPanel(new FlowLayout()); 
+    //     Menus.FormatMenuForegroundPanel(foregroundLayerLoadMenu);
+    //     foregroundLayerLoadMenu.add(title);
+    //     foregroundLayerLoadMenu.add(playButton);
+    //     foregroundLayerLoadMenu.add(settingButton); 
+    //     foregroundLayerLoadMenu.add(exitButton); 
+    // }
+
+
 }

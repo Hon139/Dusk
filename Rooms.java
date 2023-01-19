@@ -1,6 +1,11 @@
 public class Rooms{    
     private Door rootAirLock; 
 
+    
+    private Room longRoom = new Room(4,8);
+    private Room smallRoom = new Room();
+    private Room bigRoom = new Room();
+    private Room wideROom = new Room(); 
 
 
 
@@ -11,7 +16,7 @@ public class Rooms{
     }
 
     private void generate(){
-        this.rootAirLock. 
+
     }
 
 
@@ -19,5 +24,7 @@ public class Rooms{
 
 
 
-
+    private int getRandomInt(int upperBound, int lowerBound){
+        return (int)(lowerBound+Math.random()*upperBound);
+    }
 }
