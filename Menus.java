@@ -62,7 +62,6 @@ public class Menus{
         foregroundLayer.add(settingButton); 
         foregroundLayer.add(exitButton); 
 
-
         mainLayeredPane.add(foregroundLayer,JLayeredPane.PALETTE_LAYER);
     }
 
