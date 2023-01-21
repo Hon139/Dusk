@@ -42,6 +42,10 @@ public class Main{
         this.frame.addKeyListener(new MainKeyListener());
         this.frame.setVisible(true);
 
+        mainLayeredPane.setOpaque(true);
+        mainLayeredPane.setVisible(true);
+        mainLayeredPane.requestFocusInWindow();
+
         exitButton = new JButton();
         exitButton.addActionListener(new MainActionListener());
         playButton = new JButton();
@@ -51,21 +55,15 @@ public class Main{
     }
 
     public void launchMenu(){
-        Menus.launchMainMenu(mainLayeredPane, playButton, settingButton, exitButton);
-    }
-
-    public void loop(){
-        while (true){}
+        Ui.launchMainMenu(mainLayeredPane, playButton, settingButton, exitButton);
     }
 
     public void runMainGame(){
-        System.out.println("QWUHWQERKQWGRWE");
-        mainLayeredPane.removeAll();
         mainLayeredPane.repaint();
         mainLayeredPane.revalidate();
-
         D1 = new Drone(0, 0, 0, 10,Drone.createDroneImage() ,10);
-        this.mainLayeredPane.add(gamePanel);
+        mainLayeredPane.add(gamePanel);
+        
         while(true){
             System.out.println("QWE");
             if (Constants.MOVEMENT_INPUT_DELAY <= System.currentTimeMillis()-lastMovementMillis){
@@ -74,10 +72,11 @@ public class Main{
                 if (downKey){D1.move(-1);}
                 if (upKey){D1.move(1);}
             }
-            this.gamePanel.repaint();
-            this.mainLayeredPane.repaint();
-            this.frame.repaint();
-            System.out.println("QWUEGHILHEOIQR");
+            gamePanel.repaint();
+            mainLayeredPane.repaint();
+            frame.repaint();
+            gamePanel.revalidate();
+            mainLayeredPane.revalidate();
             try{Thread.sleep(Constants.TICK_SPEED_MILLISECONDS);} catch (InterruptedException e){}
         }
 
@@ -90,15 +89,12 @@ public class Main{
 
     public class MainActionListener implements ActionListener{
         public void actionPerformed(ActionEvent e){
-
             if (e.getSource() == playButton){
                 runMainGame();
-                
             }
             if (e.getSource() == exitButton){
                 frame.dispose();
             }
-
         }
     }
     public class MainKeyListener implements KeyListener{   
