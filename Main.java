@@ -7,7 +7,6 @@ public class Main{
     GraphicsPanel gamePanel; 
     JButton newLoadButton;
     JLabel backgroundImage;
-    Drone D1; 
 
     long lastMovementMillis = 0;
     static Main main; 
@@ -16,32 +15,34 @@ public class Main{
     boolean upKey = false;
     boolean downKey = false;
 
+    Drone D1 = new Drone(0, 0, 0, 10,Drone.createDroneImage() ,10);
+
     JButton exitButton; 
     JButton playButton;
     JButton settingButton;
 
 
-    Main(){
-        this.frame = new JFrame(Constants.GAME_NAME);
-        this.gamePanel = new GraphicsPanel();
-        this.gamePanel.setVisible(true);
-        this.gamePanel.setOpaque(true);
-        this.gamePanel.setBounds(0,0,Constants.WIDTH,Constants.HEIGHT);
-        this.gamePanel.addMouseListener(new MainMouseListener());
-        this.gamePanel.setFocusable(true);
-        this.mainLayeredPane = new JLayeredPane();
-        mainLayeredPane.setOpaque(true);
-        ImageIcon framePicture = new ImageIcon(".//Assets//dusks.png");
-        frame.setIconImage(framePicture.getImage());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.frame.setSize(Constants.WIDTH, Constants.HEIGHT);
-        this.frame.setMaximumSize(new Dimension(Constants.WIDTH,Constants.HEIGHT));
-        this.frame.setMinimumSize(new Dimension(Constants.WIDTH,Constants.HEIGHT));
-        this.frame.setResizable(false);
-        frame.add(mainLayeredPane);
-        this.frame.addKeyListener(new MainKeyListener());
-        this.frame.setVisible(true);
+    int gameState = 0;
+    final static int GAME_STATE_MENU = 0;
+    final int GAME_STATE_MAIN_GAME = 1;
+    final static int GAME_STATE_PAUSED = -1;
 
+
+    Main(){
+        frame = new JFrame(Constants.GAME_NAME);
+        Ui.setupFrame(frame, Constants.WIDTH, Constants.HEIGHT, ".//Assets//dusks.png");
+        frame.addKeyListener(new MainKeyListener());
+
+        gamePanel = new GraphicsPanel();
+        gamePanel.setVisible(true);
+        gamePanel.setOpaque(true);
+        gamePanel.setBounds(0,0,Constants.WIDTH,Constants.HEIGHT);
+        gamePanel.setFocusable(true);
+        gamePanel.addMouseListener(new MainMouseListener());
+        gamePanel.addKeyListener(new MainKeyListener());
+        gamePanel.setFocusable(true);
+
+        mainLayeredPane = new JLayeredPane();
         mainLayeredPane.setOpaque(true);
         mainLayeredPane.setVisible(true);
         mainLayeredPane.requestFocusInWindow();
@@ -52,45 +53,43 @@ public class Main{
         playButton.addActionListener(new MainActionListener());
         settingButton = new JButton();
         settingButton.addActionListener(new MainActionListener()); 
+
+        frame.setFocusable(true);
+        frame.add(mainLayeredPane);
+        frame.repaint();
+        frame.revalidate();
     }
 
-    public void launchMenu(){
+    public void launchMainMenu(){
         Ui.launchMainMenu(mainLayeredPane, playButton, settingButton, exitButton);
     }
 
-    public void runMainGame(){
-        mainLayeredPane.repaint();
-        mainLayeredPane.revalidate();
-        D1 = new Drone(0, 0, 0, 10,Drone.createDroneImage() ,10);
-        mainLayeredPane.add(gamePanel);
-        
-        while(true){
-            System.out.println("QWE");
+    public void performGameLogic(){
+        if (gameState == GAME_STATE_MAIN_GAME){
             if (Constants.MOVEMENT_INPUT_DELAY <= System.currentTimeMillis()-lastMovementMillis){
                 if (leftKey){D1.rotate(-1);}
                 if (rightKey){D1.rotate(1);}
                 if (downKey){D1.move(-1);}
                 if (upKey){D1.move(1);}
             }
-            gamePanel.repaint();
-            mainLayeredPane.repaint();
-            frame.repaint();
-            gamePanel.revalidate();
-            mainLayeredPane.revalidate();
             try{Thread.sleep(Constants.TICK_SPEED_MILLISECONDS);} catch (InterruptedException e){}
         }
-
     }
 
     public static void main(String [] args){
         main = new Main();
-        main.launchMenu();
+        main.launchMainMenu();
+        while (true){
+            main.performGameLogic();
+            main.gamePanel.repaint();
+        }
     }
 
     public class MainActionListener implements ActionListener{
         public void actionPerformed(ActionEvent e){
             if (e.getSource() == playButton){
-                runMainGame();
+                Ui.launchMainGame(mainLayeredPane, gamePanel);
+                gameState = main.GAME_STATE_MAIN_GAME;
             }
             if (e.getSource() == exitButton){
                 frame.dispose();
@@ -100,6 +99,7 @@ public class Main{
     public class MainKeyListener implements KeyListener{   
         public void keyPressed(KeyEvent e){
             if (e.getKeyCode() == KeyEvent.VK_UP){
+                System.out.println("QWERGGGGGGGGGGGGGGGGGGGGGG");
                 upKey = true; 
                 lastMovementMillis = System.currentTimeMillis();
             } 
@@ -147,9 +147,8 @@ public class Main{
     }  
 
     public class GraphicsPanel extends JPanel{
-        public void paintComponent(Graphics g) { 
+        public void paintComponent(Graphics g){
             super.paintComponent(g); //required
-            System.out.println("qwer");
             D1.paintEntity(g);
             repaint();
         }
