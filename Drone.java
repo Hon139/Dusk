@@ -45,7 +45,7 @@ public class Drone extends Entity {
 
         Graphics2D g2d = bufferedImage.createGraphics();
         g2d.setComposite(AlphaComposite.Src);
-        g2d.setColor(new Color(0,0,0,255));
+        g2d.setColor(new Color(14, 161, 230,255));
         g2d.setStroke(new BasicStroke(5));
         drawCircle(g2d,width/2,height/2,100);
         g2d.drawLine(0,width/2,height,width/2);

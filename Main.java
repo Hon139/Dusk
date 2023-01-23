@@ -21,6 +21,8 @@ public class Main{
     JButton playButton;
     JButton settingButton;
 
+    JTextField consoleTextField;
+    JPanel consolePanel;
 
     int gameState = 0;
     final static int GAME_STATE_MENU = 0;
@@ -47,6 +49,9 @@ public class Main{
         mainLayeredPane.setVisible(true);
         mainLayeredPane.requestFocusInWindow();
 
+        consoleTextField = new JTextField("QWERWQER\n\nQWEEEEEEEEEEEEEEE");
+        consolePanel = new JPanel();
+
         exitButton = new JButton();
         exitButton.addActionListener(new MainActionListener());
         playButton = new JButton();
@@ -62,16 +67,39 @@ public class Main{
 
     public void launchMainMenu(){
         Ui.launchMainMenu(mainLayeredPane, playButton, settingButton, exitButton);
+        
+    }
+
+    public void launchMainGame(){
+        Ui.launchMainGame(mainLayeredPane, gamePanel);
+        gameState = main.GAME_STATE_MAIN_GAME;
+        Ui.setupConsole(consolePanel, consoleTextField);
+
+
+
+        // JLabel x = new JLabel("<html><body>MOVEMENT:<br>Up   " + "\u2800"
+        // + "  :         W<br>Down  :    S<br>Left  :       A<br>Right:     D</body></html>");
+        //       x.setBounds(100,100,1000,1000);
+
+        //       consolePanel.setBounds(100,100,100,100);
+        mainLayeredPane.add(consolePanel,JLayeredPane.POPUP_LAYER);
+
+        //       gameState = main.GAME_STATE_MAIN_GAME;
     }
 
     public void performGameLogic(){
         if (gameState == GAME_STATE_MAIN_GAME){
+
             if (Constants.MOVEMENT_INPUT_DELAY <= System.currentTimeMillis()-lastMovementMillis){
+                if (leftKey || rightKey || upKey || downKey){lastMovementMillis = System.currentTimeMillis();}
                 if (leftKey){D1.rotate(-1);}
                 if (rightKey){D1.rotate(1);}
                 if (downKey){D1.move(-1);}
                 if (upKey){D1.move(1);}
             }
+
+
+
             try{Thread.sleep(Constants.TICK_SPEED_MILLISECONDS);} catch (InterruptedException e){}
         }
     }
@@ -88,8 +116,7 @@ public class Main{
     public class MainActionListener implements ActionListener{
         public void actionPerformed(ActionEvent e){
             if (e.getSource() == playButton){
-                Ui.launchMainGame(mainLayeredPane, gamePanel);
-                gameState = main.GAME_STATE_MAIN_GAME;
+                main.launchMainGame();
             }
             if (e.getSource() == exitButton){
                 frame.dispose();
@@ -99,21 +126,16 @@ public class Main{
     public class MainKeyListener implements KeyListener{   
         public void keyPressed(KeyEvent e){
             if (e.getKeyCode() == KeyEvent.VK_UP){
-                System.out.println("QWERGGGGGGGGGGGGGGGGGGGGGG");
                 upKey = true; 
-                lastMovementMillis = System.currentTimeMillis();
             } 
             if (e.getKeyCode() == KeyEvent.VK_DOWN){
                 downKey = true; 
-                lastMovementMillis = System.currentTimeMillis();
             } 
             if (e.getKeyCode() == KeyEvent.VK_LEFT){
                 leftKey = true; 
-                lastMovementMillis = System.currentTimeMillis();
             } 
             if (e.getKeyCode() == KeyEvent.VK_RIGHT){
                 rightKey = true;
-                lastMovementMillis = System.currentTimeMillis();
             } 
         }
         public void keyReleased(KeyEvent e){ 

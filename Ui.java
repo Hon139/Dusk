@@ -42,6 +42,17 @@ public class Ui{
         mainLayeredPane.add(backgroundImage,JLayeredPane.DEFAULT_LAYER);
     }
 
+    public static void setupConsole(JPanel panel, JTextField textField){
+        panel.setBounds(800,500,600,400);
+        panel.setBackground(new Color(0,0,0,0));
+        panel.add(textField);
+
+        textField.setBackground(new Color(0,0,0));
+        textField.setCaretColor(new Color(255,255,255));
+        textField.setVisible(true);
+        textField.setForeground(new Color(91, 209, 73));
+    }
+
     public static void launchMainMenu(JLayeredPane mainLayeredPane,JButton playButton, JButton settingButton, JButton exitButton){
         mainLayeredPane.removeAll();
         setMenuBackground(mainLayeredPane);
@@ -72,4 +83,7 @@ public class Ui{
         gamePanel.setBackground(new Color(7, 23, 48));
         mainLayeredPane.add(gamePanel,JLayeredPane.PALETTE_LAYER);
     }
+
+
+
 }

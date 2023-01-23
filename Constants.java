@@ -16,7 +16,7 @@ public class Constants{
     public static final Color MENU_BUTTON_BACKGROUND_COLOR = new Color(72,72,72);
     public static final Dimension BUTTON_SIZE = new Dimension(500,110); 
 
-    public static final int MOVEMENT_INPUT_DELAY = 60;
+    public static final int MOVEMENT_INPUT_DELAY = 20;
 
     public static final String BUTTON_TEXTURE_FILE_PATH = ".//Assets//MetalTexture.jpg";
 
