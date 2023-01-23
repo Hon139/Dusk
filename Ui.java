@@ -1,4 +1,8 @@
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+
 import java.awt.*;
 public class Ui{
     static JButton newLoadButton;
@@ -40,17 +44,39 @@ public class Ui{
         backgroundImage.setVisible(true);
         backgroundImage.setOpaque(true);
         mainLayeredPane.add(backgroundImage,JLayeredPane.DEFAULT_LAYER);
-    }
+    }   
 
-    public static void setupConsole(JPanel panel, JTextField textField){
-        panel.setBounds(800,500,600,400);
-        panel.setBackground(new Color(0,0,0,0));
-        panel.add(textField);
+    public static void setupConsole(JPanel panel, JTextField textField, JLabel textHistory){
+        int panelWidth = 500;
+        int panelHeight = 200;
+        int fieldWidth = panelWidth;
+        int fieldHeight = 30;
 
+        Border lineBorder = BorderFactory.createLineBorder(Color.gray, 1);
+        Border marginBorder = new EmptyBorder(0, 5, 0, 0); 
+        CompoundBorder border = new CompoundBorder(lineBorder, marginBorder);
+
+        panel.setBounds(950,555,panelWidth,panelHeight);
+        panel.setLayout(null);
+
+        textHistory.setBorder(border);
+        textHistory.setBackground(new Color(0,0,0));
+        textHistory.setBounds(0,0 ,panelWidth,panelHeight-fieldHeight);
+        textHistory.setVerticalAlignment(JLabel.BOTTOM);
+        textHistory.setVisible(true);
+        textHistory.setOpaque(true);
+
+        textField.setBounds(0,panelHeight-fieldHeight,fieldWidth,fieldHeight);
         textField.setBackground(new Color(0,0,0));
         textField.setCaretColor(new Color(255,255,255));
-        textField.setVisible(true);
         textField.setForeground(new Color(91, 209, 73));
+        textField.setColumns(30);
+        textField.setVisible(true);
+        textField.setSelectionColor(new Color(60, 230, 85));
+        textField.setBorder(border);
+
+        panel.add(textField);
+        panel.add(textHistory);
     }
 
     public static void launchMainMenu(JLayeredPane mainLayeredPane,JButton playButton, JButton settingButton, JButton exitButton){

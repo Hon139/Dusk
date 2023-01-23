@@ -38,5 +38,15 @@ public class Utilities{
     }
 
 
+    public static String cleanString(String input){
+        String cleanedString = "";
+        for (char i: input.toCharArray()){
+            if (Character.isLetterOrDigit(i) || Character.isWhitespace(i)){
+                cleanedString+=Character.toLowerCase(i); 
+            }
+        }
+        return cleanedString;
+    }
+
     private Utilities(){}
 }

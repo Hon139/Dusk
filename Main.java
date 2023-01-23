@@ -21,8 +21,11 @@ public class Main{
     JButton playButton;
     JButton settingButton;
 
+    JLabel consoleHistory;
     JTextField consoleTextField;
     JPanel consolePanel;
+
+    
 
     int gameState = 0;
     final static int GAME_STATE_MENU = 0;
@@ -49,8 +52,10 @@ public class Main{
         mainLayeredPane.setVisible(true);
         mainLayeredPane.requestFocusInWindow();
 
-        consoleTextField = new JTextField("QWERWQER\n\nQWEEEEEEEEEEEEEEE");
+        consoleTextField = new JTextField(">Input Commands Here");
+        consoleHistory = new JLabel("<html><html>");
         consolePanel = new JPanel();
+        consoleTextField.addKeyListener(new MainKeyListener());
 
         exitButton = new JButton();
         exitButton.addActionListener(new MainActionListener());
@@ -73,18 +78,8 @@ public class Main{
     public void launchMainGame(){
         Ui.launchMainGame(mainLayeredPane, gamePanel);
         gameState = main.GAME_STATE_MAIN_GAME;
-        Ui.setupConsole(consolePanel, consoleTextField);
-
-
-
-        // JLabel x = new JLabel("<html><body>MOVEMENT:<br>Up   " + "\u2800"
-        // + "  :         W<br>Down  :    S<br>Left  :       A<br>Right:     D</body></html>");
-        //       x.setBounds(100,100,1000,1000);
-
-        //       consolePanel.setBounds(100,100,100,100);
+        Ui.setupConsole(consolePanel, consoleTextField,consoleHistory);
         mainLayeredPane.add(consolePanel,JLayeredPane.POPUP_LAYER);
-
-        //       gameState = main.GAME_STATE_MAIN_GAME;
     }
 
     public void performGameLogic(){
@@ -125,18 +120,46 @@ public class Main{
     }
     public class MainKeyListener implements KeyListener{   
         public void keyPressed(KeyEvent e){
-            if (e.getKeyCode() == KeyEvent.VK_UP){
-                upKey = true; 
-            } 
-            if (e.getKeyCode() == KeyEvent.VK_DOWN){
-                downKey = true; 
-            } 
-            if (e.getKeyCode() == KeyEvent.VK_LEFT){
-                leftKey = true; 
-            } 
-            if (e.getKeyCode() == KeyEvent.VK_RIGHT){
-                rightKey = true;
-            } 
+
+
+            if (consoleTextField.isFocusOwner()){
+                if (e.getKeyCode() == KeyEvent.VK_ENTER){
+                    int length = consoleHistory.getText().length();
+                    String inputText = Utilities.cleanString(consoleTextField.getText());
+
+                    consoleHistory.setText(consoleHistory.getText().substring(0,length-6)+"\""+inputText+"\""+" Isn't recognized!"+"<br>"+consoleHistory.getText().substring(length-6));
+
+
+                    consoleHistory.setText(consoleHistory.getText().substring(0,length-6)+consoleTextField.getText()+"<br>"+consoleHistory.getText().substring(length-6));
+                  //  if (true){
+                   // }
+
+
+                    consoleTextField.setText(">");
+                }
+
+
+
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    gamePanel.requestFocus();
+                }
+
+
+            }   
+            if (!consoleTextField.isFocusOwner()){
+                if (e.getKeyCode() == KeyEvent.VK_UP){
+                    upKey = true; 
+                } 
+                if (e.getKeyCode() == KeyEvent.VK_DOWN){
+                    downKey = true; 
+                } 
+                if (e.getKeyCode() == KeyEvent.VK_LEFT){
+                    leftKey = true; 
+                } 
+                if (e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    rightKey = true;
+                } 
+            }
         }
         public void keyReleased(KeyEvent e){ 
             if (e.getKeyCode() == KeyEvent.VK_UP){

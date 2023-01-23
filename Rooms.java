@@ -33,18 +33,20 @@ public class Rooms{
             int randY = Utilities.getRandomInt(0, floorPlan[randX].length);
             int[] initialPoint = new int[]{randX,randY}; 
 
-            if(rand == 0){
+           // if(rand == 0){
                 int randDirection = Utilities.getRandomInt(0, 3); // 0 = North, 1 = East, 2 = South, 3 = West
-                int t = (int)(randX+(randDirection%2)*(Math.pow(-1,(randDirection-1)/2)));
-                int p = (int)(randY +((randDirection+1)%2)*(Math.pow(-1,(randDirection/2)+1)));
+                int newX = (int)(randX+(randDirection%2)*(Math.pow(-1,(randDirection-1)/2)));
+                int newY = (int)(randY +((randDirection+1)%2)*(Math.pow(-1,(randDirection/2)+1)));
                 
-                if (Utilities.isInRange(0, , p)){
+                if (Utilities.isInRange(0,newX ,floorPlan.length) && Utilities.isInRange(0, newY, floorPlan[newX].length)){
+                    floorPlan[newX][newY] = floorPlan[randX][randY];
+                    nonDefaultTilesLong -= 1;
 
                 }
 
-            } else if (rand ==1){
+           // } else if (rand ==1){
 
-            }
+           // }
 
         }
 
