@@ -55,7 +55,6 @@ public class Rooms{
             //     }
             // }
         }
-
             String lineSeparator = System.lineSeparator();
             StringBuilder sb = new StringBuilder();
 
@@ -63,7 +62,6 @@ public class Rooms{
                 sb.append(Arrays.toString(row))
                 .append(lineSeparator);
             }
-
             System.out.println(sb.toString());
     }
 
