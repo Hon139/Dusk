@@ -1,14 +1,17 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 public class Rooms{    
 
-    float[][] floorPlan;
+    double[][] floorPlan;
 
-    Rooms(){
-        generateMap(10,10,.5);
+    Rooms(int x, int y, double nonSingleRoomPercent){
+        generateMap(x,y, nonSingleRoomPercent);
     }
 
     private void generateMap(int x,int y,double nonSingleRoomPercent){
-        floorPlan = new float[x][y];
+        floorPlan = new double[x][y];
         int totalTiles = x*y; 
         int nonDefaultTiles = (int)(totalTiles*nonSingleRoomPercent); 
 
@@ -55,14 +58,17 @@ public class Rooms{
             //     }
             // }
         }
+
+    
+
             String lineSeparator = System.lineSeparator();
             StringBuilder sb = new StringBuilder();
 
-            for (float[] row : floorPlan) {
+            for (double[] row : floorPlan) {
                 sb.append(Arrays.toString(row))
                 .append(lineSeparator);
             }
-            System.out.println(sb.toString());
+            System.out.println(sb.toString()+"\n\n\n\n\n");
     }
 
     private int[] getNewCoords(int direction, int[] oldCoords){
@@ -71,7 +77,7 @@ public class Rooms{
         return new int[]{newX,newY};
     }
 
-    private boolean verifyCoords(float[][] map,int[] coords){
+    private boolean verifyCoords(double[][] map,int[] coords){
         int newX = coords[0];
         int newY = coords[1];
         return (Utilities.isInRange(0,map.length -1,newY) 
@@ -118,5 +124,28 @@ public class Rooms{
         }
 
     }
+
+    private void formatMap(){
+        ArrayList<Float> newMap = twoDArrayToList(Arrays.asList(floorPlan)); 
+        for (double[] i: newMap){}
+
+ 
+    }
+
+    private List<Float> twoDArrayToList(double[][] twoDArray) {
+        List<Float> list = new ArrayList<Float>();
+        for (Double[] array : convertDoubleIntoWrapper(twoDArray)) {
+            list.addAll(Arrays.asList(array));
+        }
+        return list;
+    }
+
+    private Double[] convertDoubleIntoWrapper(double[][] array){
+        for (double[] i:array)
+
+
+        return Arrays.stream(array).boxed().toArray(Double[]::new);
+    }
+
 
 }

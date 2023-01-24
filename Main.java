@@ -25,8 +25,6 @@ public class Main{
     JTextField consoleTextField;
     JPanel consolePanel;
 
-    
-
     int gameState = 0;
     final static int GAME_STATE_MENU = 0;
     final int GAME_STATE_MAIN_GAME = 1;
@@ -72,7 +70,6 @@ public class Main{
 
     public void launchMainMenu(){
         Ui.launchMainMenu(mainLayeredPane, playButton, settingButton, exitButton);
-        
     }
 
     public void launchMainGame(){
@@ -121,30 +118,18 @@ public class Main{
     public class MainKeyListener implements KeyListener{   
         public void keyPressed(KeyEvent e){
 
-
             if (consoleTextField.isFocusOwner()){
                 if (e.getKeyCode() == KeyEvent.VK_ENTER){
                     int length = consoleHistory.getText().length();
                     String inputText = Utilities.cleanString(consoleTextField.getText());
-
                     consoleHistory.setText(consoleHistory.getText().substring(0,length-6)+"\""+inputText+"\""+" Isn't recognized!"+"<br>"+consoleHistory.getText().substring(length-6));
-
-
                     consoleHistory.setText(consoleHistory.getText().substring(0,length-6)+consoleTextField.getText()+"<br>"+consoleHistory.getText().substring(length-6));
-                  //  if (true){
-                   // }
-
-
                     consoleTextField.setText(">");
                 }
-
-
 
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
                     gamePanel.requestFocus();
                 }
-
-
             }   
             if (!consoleTextField.isFocusOwner()){
                 if (e.getKeyCode() == KeyEvent.VK_UP){

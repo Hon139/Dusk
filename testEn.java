@@ -1,8 +1,7 @@
 public class testEn {
     public static void main(String[] args) {
-        System.out.println(0.5%1);
 
-new Rooms();
+new Rooms(5,7,0.6);
 
 
     }
