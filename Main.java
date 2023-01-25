@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 public class Main{
     JFrame frame; 
     JLayeredPane mainLayeredPane; 
@@ -17,8 +18,8 @@ public class Main{
     boolean escapeKey = false;
     boolean enterKey = false;
 
-
-    Drone D1 = new Drone(0, 0, 0, 10,Drone.createDroneImage() ,200,10);
+    BufferedImage x = Utilities.iconToBufferedImage(Utilities.scaleImage(new ImageIcon(Drone.createDroneImage()), Constants.DRONE_SIZE, Constants.DRONE_SIZE));
+    Drone D1 = new Drone(0, 0, 0, Constants.DRONE_SPEED,x ,Constants.DRONE_SIZE,10);
 
     JButton exitButton; 
     JButton playButton;
@@ -27,6 +28,8 @@ public class Main{
     JLabel consoleHistory;
     JTextField consoleTextField;
     JPanel consolePanel;
+
+    Map map;
 
     int gameState = 0;
     final static int GAME_STATE_MENU = 0;
@@ -37,16 +40,17 @@ public class Main{
         main = new Main();
         main.launchMainMenu();
         while (true){
-            main.performGameLogic();
+            main.performMovementLogic();
             main.gamePanel.repaint();
         }
     }
 
-
     Main(){
         frame = new JFrame(Constants.GAME_NAME);
         Ui.setupFrame(frame, Constants.WIDTH, Constants.HEIGHT, ".//Assets//dusks.png");
-        frame.addKeyListener(new MainKeyListener());
+        frame.addKeyListener(new MainKeyListener());        
+
+        map = new Map(Constants.BORDER);
 
         gamePanel = new GraphicsPanel();
         gamePanel.setVisible(true);
@@ -90,7 +94,7 @@ public class Main{
         mainLayeredPane.add(consolePanel,JLayeredPane.POPUP_LAYER);
     }
 
-    public void performGameLogic(){
+    public void performMovementLogic(){
         if (gameState == GAME_STATE_MAIN_GAME){
             if (Constants.MOVEMENT_INPUT_DELAY <= System.currentTimeMillis()-lastMovementMillis){
                 if (leftKey || rightKey || upKey || downKey){lastMovementMillis = System.currentTimeMillis();}
@@ -100,26 +104,16 @@ public class Main{
                 if (upKey){D1.move(1);}
             }
             try{Thread.sleep(Constants.TICK_SPEED_MILLISECONDS);} catch (InterruptedException e){}
-
-
-
-
         }
-
-
-
-
-
-
-
     }
 
-
-
-
-
-
-
+    public void pushConsoleCommand(){
+        int length = consoleHistory.getText().length();
+        String inputText = Utilities.cleanString(consoleTextField.getText());
+        consoleHistory.setText(consoleHistory.getText().substring(0,length-6)+"\""+inputText+"\""+" Isn't recognized!"+"<br>"+consoleHistory.getText().substring(length-6));
+        consoleHistory.setText(consoleHistory.getText().substring(0,length-6)+consoleTextField.getText()+"<br>"+consoleHistory.getText().substring(length-6));
+        consoleTextField.setText(">");
+    }
 
 
     public class MainActionListener implements ActionListener{  
@@ -137,11 +131,7 @@ public class Main{
         public void keyPressed(KeyEvent e){
             if (consoleTextField.isFocusOwner()){
                 if (e.getKeyCode() == KeyEvent.VK_ENTER){
-                    int length = consoleHistory.getText().length();
-                    String inputText = Utilities.cleanString(consoleTextField.getText());
-                    consoleHistory.setText(consoleHistory.getText().substring(0,length-6)+"\""+inputText+"\""+" Isn't recognized!"+"<br>"+consoleHistory.getText().substring(length-6));
-                    consoleHistory.setText(consoleHistory.getText().substring(0,length-6)+consoleTextField.getText()+"<br>"+consoleHistory.getText().substring(length-6));
-                    consoleTextField.setText(">");
+                    pushConsoleCommand();
                 }
 
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
@@ -163,6 +153,14 @@ public class Main{
                 } 
             }
 
+            if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                escapeKey = true;
+            } 
+
+            if (e.getKeyCode() == KeyEvent.VK_ENTER){
+                enterKey = true;
+            } 
+
         }
         public void keyReleased(KeyEvent e){ 
             if (e.getKeyCode() == KeyEvent.VK_UP){
@@ -182,11 +180,18 @@ public class Main{
                 rightKey = false;
             } 
 
+            if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                escapeKey = false;
+            } 
+
+            if (e.getKeyCode() == KeyEvent.VK_ENTER){
+                enterKey = false;
+            } 
+
         }   
         public void keyTyped(KeyEvent e){
         }           
     }   
-
 
 
     public class MainMouseListener implements MouseListener{
@@ -205,6 +210,8 @@ public class Main{
     public class GraphicsPanel extends JPanel{
         public void paintComponent(Graphics g){
             super.paintComponent(g); //required
+
+            map.drawBorders(g);
             D1.paintEntity(g);
             repaint();
         }

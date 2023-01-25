@@ -5,7 +5,6 @@ import javax.swing.border.EmptyBorder;
 
 import java.awt.*;
 public class Ui{
-    static JButton newLoadButton;
 
     public static void FormatMenuButton(JButton menuButton,int imageWidth,int imageHeight,String imagePath){
         menuButton.setForeground(new Color(255,255,255));

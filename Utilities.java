@@ -1,5 +1,7 @@
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
+import java.awt.*;
 
 public class Utilities{
  
@@ -34,18 +36,6 @@ public class Utilities{
             return ((lowerBound<=input)&&(upperBound>=input)); 
     }
 
-    public static void insertInArray(int[] array,int insertionElement,int element){
-        int[] newArray = new int[array.length+1]; 
-
-
-        for (int i =0; i<array.length;i++){
-
-
-            
-        }
-
-    }
-
     public static String cleanString(String input){
         String cleanedString = "";
         for (char i: input.toCharArray()){
@@ -54,6 +44,15 @@ public class Utilities{
             }
         }
         return cleanedString;
+    }
+
+    public static BufferedImage iconToBufferedImage(ImageIcon icon) {
+        BufferedImage bufferedImage = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(),
+                BufferedImage.TYPE_INT_ARGB);
+        Graphics graphics = bufferedImage.createGraphics();
+        icon.paintIcon(null, graphics, 0, 0);
+        graphics.dispose();//from   w  ww.j a  va  2  s.  co m
+        return bufferedImage;
     }
 
     private Utilities(){}
