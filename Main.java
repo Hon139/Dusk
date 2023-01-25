@@ -97,8 +97,8 @@ public class Main{
                 if (leftKey || rightKey || upKey || downKey){lastMovementMillis = System.currentTimeMillis();}
                 if (leftKey){map.getDrone().rotate(-1);}
                 if (rightKey){map.getDrone().rotate(1);}
-                if (downKey){map.getDrone().move(-1);}
-                if (upKey){map.getDrone().move(1);}
+                if (downKey && !map.willCollidingWithBorder(-1)){map.getDrone().move(-1);}
+                if (upKey && !map.willCollidingWithBorder(1)){map.getDrone().move(1);}
             }
             try{Thread.sleep(Constants.TICK_SPEED_MILLISECONDS);} catch (InterruptedException e){}
         }

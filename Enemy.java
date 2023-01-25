@@ -2,11 +2,10 @@ import java.awt.Graphics;
 import java.awt.Image;
 
 public class Enemy extends Entity{
-    private int damage;
 
-    Enemy(int xPos, int yPos, int maxLifePoints, int stepDistance, Image entityImage,int damage) {
-        super(xPos, yPos, maxLifePoints, stepDistance, entityImage);
-        this.damage = damage;
+
+    Enemy(int xPos, int yPos, int maxLifePoints, int stepDistance, Image entityImage, int diameterSize) {
+        super(xPos, yPos, maxLifePoints, stepDistance, entityImage,diameterSize );
     }
 
     @Override
@@ -15,7 +14,7 @@ public class Enemy extends Entity{
     }
 
     @Override
-    void paintEntity(Graphics g) {
+    void paintEntityCenter(Graphics g) {
         
     }
     

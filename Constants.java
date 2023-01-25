@@ -5,7 +5,7 @@ public class Constants{
 
     public static final int WIDTH = 1500;
     public static final int HEIGHT = 820;
-    public static final int TICK_SPEED_MILLISECONDS = 20;
+    public static final int TICK_SPEED_MILLISECONDS = 5;
     public static final String GAME_NAME = "SELTIN";
     public static final Font MENU_FONT = new Font("Monospaced", Font.PLAIN, 30); 
     public static final Font TITLE_FONT = new Font("Monospaced", Font.PLAIN, 50); 
@@ -20,10 +20,10 @@ public class Constants{
     public static final Color GAME_BACKGROUND_COLOR = new Color(4, 5, 13);
 
     public static final int DRONE_SIZE = 130;
-    public static final int DRONE_SPEED = 8;
+    public static final int DRONE_SPEED = 10;
     public static final int DRONE_ROTATE_SPEED = 8;
 
-    public static final int[] BORDER = {0,0,7000,10000}; //top,left,down,right
+    public static final int[] BORDER = {0,0,5000,8000}; //top,left,down,right
     //public static final int GAME_BACKGROUND_COLOR = new Color(4, 13, 28);
     //public static final int GAME_BACKGROUND_COLOR = new Color(4, 13, 28);
 

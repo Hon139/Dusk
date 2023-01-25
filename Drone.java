@@ -14,11 +14,20 @@ public class Drone extends Entity {
 
     @Override
     void move(int direction){
+        this.setX(getMoveX(direction));
+        this.setY(getMoveY(direction));
+    }
+
+    int getMoveX(int direction){
         int step = super.getStepDistance()*direction;
         double angleOfMovementDeg = Math.toRadians(this.angleOfMovement);
+        return (int)(this.getX()+Math.cos(angleOfMovementDeg)*step);
+    }
 
-        this.setX((int)(this.getX()+Math.cos(angleOfMovementDeg)*step));
-        this.setY((int)(this.getY()+Math.sin(angleOfMovementDeg)*step));
+    int getMoveY(int direction){
+        int step = super.getStepDistance()*direction;
+        double angleOfMovementDeg = Math.toRadians(this.angleOfMovement);
+        return (int)(this.getY()+Math.sin(angleOfMovementDeg)*step);
     }
 
     void rotate(int direction){
@@ -63,6 +72,8 @@ public class Drone extends Entity {
 
     @Override
     void paintEntityCenter(Graphics g){ 
-        g.drawImage(rotateImage(getImage(), angleOfMovement),getX()-this.getDiameterSize()/2,getY()-this.getDiameterSize()/2,null);
+        g.drawImage(rotateImage(getImage(), angleOfMovement),Constants.WIDTH/2-this.getDiameterSize()/2,Constants.HEIGHT/2-this.getDiameterSize()/2,null);
     }
+
+    
 }
