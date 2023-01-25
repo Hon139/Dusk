@@ -105,7 +105,7 @@ public class Main{
         }
     }
 
-    public class MainActionListener implements ActionListener{
+    public class MainActionListener implements ActionListener{  
         public void actionPerformed(ActionEvent e){
             if (e.getSource() == playButton){
                 main.launchMainGame();

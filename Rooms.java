@@ -1,7 +1,4 @@
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-
 public class Rooms{    
 
     double[][] floorPlan;
@@ -43,23 +40,7 @@ public class Rooms{
                     nonDefaultTiles -= 2;
                 }
             } 
-            // else if (rand == 1){
-            //     int randDirectionHorizontal = Utilities.getRandomInt(0, 3); // 0 = North, 1 = East, 2 = South, 3 = West
-            //     int randDirectionVertical = Utilities.getWeightedRandom(new int[]{1,0,1}); // 0 = North, 1 = East, 2 = South, 3 = West
-                
-            //     int[] newCoordVertical = getNewCoords(randDirectionVertical,new int[]{randX,randY});
-            //     int[] newCoordHorizontal = getNewCoords(randDirectionHorizontal,new int[]{randX,randY});
-            //     int[] newCoordHorizontal2 = getNewCoords(randDirectionHorizontal,new int[]{newCoordVertical[0],newCoordVertical[1]});
-
-            //     if (verifyCoords(floorPlan, newCoordHorizontal2) && verifyCoords(floorPlan, newCoordHorizontal) && verifyCoords(floorPlan, newCoordVertical) && floorPlan[randY][randX]%1 ==0
-            //      &&floorPlan[newCoordVertical[1]][newCoordVertical[0]]%1==0 && floorPlan[newCoordHorizontal[1]][newCoordHorizontal[0]]%1==0 && floorPlan[newCoordHorizontal2[1]][newCoordHorizontal2[0]]%1==0){
-
-            //         floorPlan[][]
-            //     }
-            // }
         }
-
-    
 
             String lineSeparator = System.lineSeparator();
             StringBuilder sb = new StringBuilder();
@@ -84,21 +65,6 @@ public class Rooms{
         && Utilities.isInRange(0, map[newY].length-1,newX)
         );
     } 
-
-    // private void assignTileDecimalSquare(int[] coord1,int[] coord2,int[] coordH1,int[] coordH2){
-    //     /* 0.7  0.8
-    //      * 0.6  0.5
-    //      */
-        
-    //     int[][] elements = {coord1,coord2,coordH1,coordH2};
-        
-    //     int largestX = coord1[0]; 
-    //     for (int i =0;i < elements.length;i++){
-    //         if (elements[i][0] > largestX){
-    //             largestX = elements[i][0];
-    //         }
-    //     }
-    // }
 
     private void assignTileDecimalRect(int[] coord1,int[] coord2, int direction){
         if (direction == 1 || direction == 3){
@@ -125,27 +91,22 @@ public class Rooms{
 
     }
 
-    private void formatMap(){
-        ArrayList<Float> newMap = twoDArrayToList(Arrays.asList(floorPlan)); 
-        for (double[] i: newMap){}
+    private void formatMap(int[][] map){
 
- 
-    }
+        for (int[] i: map){
+            for (int u: i){
+                
+            }
 
-    private List<Float> twoDArrayToList(double[][] twoDArray) {
-        List<Float> list = new ArrayList<Float>();
-        for (Double[] array : convertDoubleIntoWrapper(twoDArray)) {
-            list.addAll(Arrays.asList(array));
+
         }
-        return list;
+
+
+
+
+
     }
 
-    private Double[] convertDoubleIntoWrapper(double[][] array){
-        for (double[] i:array)
-
-
-        return Arrays.stream(array).boxed().toArray(Double[]::new);
-    }
-
+  
 
 }

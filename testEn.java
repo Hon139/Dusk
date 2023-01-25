@@ -1,7 +1,7 @@
 public class testEn {
     public static void main(String[] args) {
 
-new Rooms(5,7,0.6);
+    new Rooms(5,7,0.6);
 
 
     }

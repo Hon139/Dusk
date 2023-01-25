@@ -1,4 +1,6 @@
 import java.awt.Image;
+import java.util.Arrays;
+
 import javax.swing.ImageIcon;
 
 public class Utilities{
@@ -31,12 +33,20 @@ public class Utilities{
     }
 
     public static boolean isInRange(int lowerBound, int upperBound, int input ){
-
-        return ((lowerBound<=input)&&(upperBound>=input)); 
-
-
+            return ((lowerBound<=input)&&(upperBound>=input)); 
     }
 
+    public static void insertInArray(int[] array,int insertionElement,int element){
+        int[] newArray = new int[array.length+1]; 
+
+
+        for (int i =0; i<array.length;i++){
+
+
+            
+        }
+
+    }
 
     public static String cleanString(String input){
         String cleanedString = "";
