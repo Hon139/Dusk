@@ -15,12 +15,10 @@ public class Map{
         enemies = new ArrayList<Enemy>();
     }
 
-
     public void generateEnemies(){
         
 
     }
-
 
     public void drawBorders(Graphics g,int offsetX, int offsetY){
         Graphics2D g2d = (Graphics2D)g;
