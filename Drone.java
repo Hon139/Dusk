@@ -6,8 +6,8 @@ public class Drone extends Entity {
     private double angleOfMovement; 
     private double rotationStep; 
 
-    Drone(int xPos,int yPos, int maxLifePoints,int stepDistance,Image entityImage, int radiusSize, double rotationStep){
-        super(xPos, yPos, maxLifePoints, stepDistance, entityImage,radiusSize);
+    Drone(int xPos,int yPos, int maxLifePoints,int stepDistance,Image entityImage, int DiameterSize, double rotationStep){
+        super(xPos, yPos, maxLifePoints, stepDistance, entityImage,DiameterSize);
         this.angleOfMovement = 0;
         this.rotationStep = rotationStep; 
     }
@@ -62,7 +62,7 @@ public class Drone extends Entity {
     }
 
     @Override
-    void paintEntity(Graphics g){ 
-        g.drawImage(rotateImage(getImage(), angleOfMovement),getX(),getY(),null);
+    void paintEntityCenter(Graphics g){ 
+        g.drawImage(rotateImage(getImage(), angleOfMovement),getX()-this.getDiameterSize()/2,getY()-this.getDiameterSize()/2,null);
     }
 }

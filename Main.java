@@ -18,9 +18,6 @@ public class Main{
     boolean escapeKey = false;
     boolean enterKey = false;
 
-    BufferedImage x = Utilities.iconToBufferedImage(Utilities.scaleImage(new ImageIcon(Drone.createDroneImage()), Constants.DRONE_SIZE, Constants.DRONE_SIZE));
-    Drone D1 = new Drone(0, 0, 0, Constants.DRONE_SPEED,x ,Constants.DRONE_SIZE,10);
-
     JButton exitButton; 
     JButton playButton;
     JButton settingButton;
@@ -98,10 +95,10 @@ public class Main{
         if (gameState == GAME_STATE_MAIN_GAME){
             if (Constants.MOVEMENT_INPUT_DELAY <= System.currentTimeMillis()-lastMovementMillis){
                 if (leftKey || rightKey || upKey || downKey){lastMovementMillis = System.currentTimeMillis();}
-                if (leftKey){D1.rotate(-1);}
-                if (rightKey){D1.rotate(1);}
-                if (downKey){D1.move(-1);}
-                if (upKey){D1.move(1);}
+                if (leftKey){map.getDrone().rotate(-1);}
+                if (rightKey){map.getDrone().rotate(1);}
+                if (downKey){map.getDrone().move(-1);}
+                if (upKey){map.getDrone().move(1);}
             }
             try{Thread.sleep(Constants.TICK_SPEED_MILLISECONDS);} catch (InterruptedException e){}
         }
@@ -210,9 +207,7 @@ public class Main{
     public class GraphicsPanel extends JPanel{
         public void paintComponent(Graphics g){
             super.paintComponent(g); //required
-
-            map.drawBorders(g);
-            D1.paintEntity(g);
+            map.drawMap(g);
             repaint();
         }
     }

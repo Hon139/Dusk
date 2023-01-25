@@ -7,11 +7,12 @@ public class Map{
     int[] bounds; 
   //  ArrayList<Enemy> enemies;
     Drone primaryDrone; 
-
+    int offsetX = 0;
+    int offsetY = 0;
 
     Map(int[] bounds){
         BufferedImage droneImage = Utilities.iconToBufferedImage(Utilities.scaleImage(new ImageIcon(Drone.createDroneImage()), Constants.DRONE_SIZE, Constants.DRONE_SIZE));
-        primaryDrone = new Drone(0, 0, 0, Constants.DRONE_SPEED, droneImage, Constants.DRONE_SIZE, Constants.DRONE_ROTATE_SPEED);
+        primaryDrone = new Drone(Constants.WIDTH/2, Constants.HEIGHT/2, 0, Constants.DRONE_SPEED, droneImage, Constants.DRONE_SIZE, Constants.DRONE_ROTATE_SPEED);
         this.bounds = bounds;
    //     enemies = new ArrayList<Enemy>();
     }
@@ -27,6 +28,11 @@ public class Map{
 
     public void drawEntities(){}
 
+    public void drawMap(Graphics g){
+        drawBorders(g);
+        drawDrone(g);
+    }
+
 
 
     public boolean isCollidingWithBorder(){
@@ -39,8 +45,14 @@ public class Map{
         return true;
     }
 
-    public void drawDrone(){
-
+    public void drawDrone(Graphics g){
+        primaryDrone.paintEntityCenter(g);
     }
+
+    public Drone getDrone(){
+        return primaryDrone;
+    }
+
+
 
 }

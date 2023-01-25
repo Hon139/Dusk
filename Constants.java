@@ -17,7 +17,7 @@ public class Constants{
 
     public static final String BUTTON_TEXTURE_FILE_PATH = ".//Assets//MetalTexture.jpg";
 
-    public static final Color GAME_BACKGROUND_COLOR = new Color(4, 13, 28);
+    public static final Color GAME_BACKGROUND_COLOR = new Color(4, 5, 13);
 
     public static final int DRONE_SIZE = 130;
     public static final int DRONE_SPEED = 8;
