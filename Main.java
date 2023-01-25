@@ -14,8 +14,11 @@ public class Main{
     boolean rightKey = false;
     boolean upKey = false;
     boolean downKey = false;
+    boolean escapeKey = false;
+    boolean enterKey = false;
 
-    Drone D1 = new Drone(0, 0, 0, 10,Drone.createDroneImage() ,10);
+
+    Drone D1 = new Drone(0, 0, 0, 10,Drone.createDroneImage() ,200,10);
 
     JButton exitButton; 
     JButton playButton;
@@ -30,6 +33,15 @@ public class Main{
     final int GAME_STATE_MAIN_GAME = 1;
     final static int GAME_STATE_PAUSED = -1;
 
+    public static void main(String [] args){
+        main = new Main();
+        main.launchMainMenu();
+        while (true){
+            main.performGameLogic();
+            main.gamePanel.repaint();
+        }
+    }
+
 
     Main(){
         frame = new JFrame(Constants.GAME_NAME);
@@ -40,7 +52,6 @@ public class Main{
         gamePanel.setVisible(true);
         gamePanel.setOpaque(true);
         gamePanel.setBounds(0,0,Constants.WIDTH,Constants.HEIGHT);
-        gamePanel.setFocusable(true);
         gamePanel.addMouseListener(new MainMouseListener());
         gamePanel.addKeyListener(new MainKeyListener());
         gamePanel.setFocusable(true);
@@ -81,7 +92,6 @@ public class Main{
 
     public void performGameLogic(){
         if (gameState == GAME_STATE_MAIN_GAME){
-
             if (Constants.MOVEMENT_INPUT_DELAY <= System.currentTimeMillis()-lastMovementMillis){
                 if (leftKey || rightKey || upKey || downKey){lastMovementMillis = System.currentTimeMillis();}
                 if (leftKey){D1.rotate(-1);}
@@ -89,21 +99,28 @@ public class Main{
                 if (downKey){D1.move(-1);}
                 if (upKey){D1.move(1);}
             }
-
-
-
             try{Thread.sleep(Constants.TICK_SPEED_MILLISECONDS);} catch (InterruptedException e){}
+
+
+
+
         }
+
+
+
+
+
+
+
     }
 
-    public static void main(String [] args){
-        main = new Main();
-        main.launchMainMenu();
-        while (true){
-            main.performGameLogic();
-            main.gamePanel.repaint();
-        }
-    }
+
+
+
+
+
+
+
 
     public class MainActionListener implements ActionListener{  
         public void actionPerformed(ActionEvent e){
@@ -115,9 +132,9 @@ public class Main{
             }
         }
     }
+
     public class MainKeyListener implements KeyListener{   
         public void keyPressed(KeyEvent e){
-
             if (consoleTextField.isFocusOwner()){
                 if (e.getKeyCode() == KeyEvent.VK_ENTER){
                     int length = consoleHistory.getText().length();
@@ -145,6 +162,7 @@ public class Main{
                     rightKey = true;
                 } 
             }
+
         }
         public void keyReleased(KeyEvent e){ 
             if (e.getKeyCode() == KeyEvent.VK_UP){
@@ -159,10 +177,18 @@ public class Main{
             if (e.getKeyCode() == KeyEvent.VK_RIGHT){
                 rightKey = false;
             } 
+
+            if (e.getKeyCode() == KeyEvent.VK_RIGHT){
+                rightKey = false;
+            } 
+
         }   
         public void keyTyped(KeyEvent e){
         }           
     }   
+
+
+
     public class MainMouseListener implements MouseListener{
         public void mouseClicked(MouseEvent e){   // moves the box at the mouse location
         }

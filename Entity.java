@@ -8,14 +8,16 @@ abstract class Entity {
     private int lifePoints; 
     private int stepDistance; 
     private Image entityImage;
+    private int radiusSize; 
 
-    Entity(int xPos,int yPos, int maxLifePoints,int stepDistance,Image entityImage){
+    Entity(int xPos,int yPos, int maxLifePoints,int stepDistance,Image entityImage,int radius){
         this.xPos = xPos;
         this.yPos = yPos; 
         this.maxLifePoints = maxLifePoints;
         this.stepDistance = stepDistance; 
         this.entityImage = entityImage; 
         this.lifePoints = maxLifePoints;  
+        this.radiusSize = radius; 
     }
 
     abstract void move(int direction); 
@@ -51,6 +53,8 @@ abstract class Entity {
     public Image getImage(){
         return entityImage; 
     }
+
+
 
     abstract void paintEntity(Graphics g); 
 

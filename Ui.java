@@ -106,7 +106,7 @@ public class Ui{
 
     public static void launchMainGame(JLayeredPane mainLayeredPane, JPanel gamePanel){
         mainLayeredPane.removeAll();
-        gamePanel.setBackground(new Color(7, 23, 48));
+        gamePanel.setBackground(Constants.GAME_BACKGROUND_COLOR);
         mainLayeredPane.add(gamePanel,JLayeredPane.PALETTE_LAYER);
     }
 
