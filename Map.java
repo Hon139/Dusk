@@ -27,6 +27,8 @@ public class Map{
         g2d.setColor(Color.white);
         g2d.setStroke(new BasicStroke(20));
         g2d.drawRect(bounds[0]+offsetX, bounds[1]+offsetY, bounds[2], bounds[3]);
+
+        for (int i =0;i<Constants.BORDER[3]){}
     }
 
     public void drawEntities(){}
@@ -39,16 +41,21 @@ public class Map{
 
     public boolean willCollidingWithBorder(int direction){
         boolean returnStatus = false;
-        if (!(primaryDrone.getX()+primaryDrone.getMoveX(direction)+primaryDrone.getDiameterSize()/2 <bounds[0]+Constants.WIDTH/2)){
+        int droneX = primaryDrone.getX()+primaryDrone.getMoveX(direction);
+        int droneY = primaryDrone.getY()+primaryDrone.getMoveY(direction);
+        System.out.println(primaryDrone.getX());
+        System.out.println(primaryDrone.getY());
+
+        if (!(droneX+primaryDrone.getDiameterSize()/2 <bounds[0]+Constants.WIDTH/2)){
             returnStatus = true;
         }
-        if ((primaryDrone.getX()+primaryDrone.getMoveX(direction)-primaryDrone.getDiameterSize()/2 < -bounds[2]+Constants.WIDTH/2)){
+        if ((droneX-primaryDrone.getDiameterSize()/2 < -bounds[2]+Constants.WIDTH/2)){
             returnStatus = true;
         }
-        if (!(primaryDrone.getY()+primaryDrone.getMoveY(direction)+primaryDrone.getDiameterSize()/2<bounds[1]+Constants.HEIGHT/2)){
+        if (!(droneY+primaryDrone.getDiameterSize()/2 <bounds[1]+Constants.HEIGHT/2)){
             returnStatus = true;
         }
-        if ((primaryDrone.getY()+primaryDrone.getMoveY(direction)-primaryDrone.getDiameterSize()/2 < -bounds[3]+Constants.HEIGHT/2)){
+        if ((droneY-primaryDrone.getDiameterSize()/2 < -bounds[3]+Constants.HEIGHT/2)){
             returnStatus = true;
         }
         return returnStatus; 

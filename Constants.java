@@ -24,10 +24,6 @@ public class Constants{
     public static final int DRONE_ROTATE_SPEED = 8;
 
     public static final int[] BORDER = {0,0,5000,8000}; //top,left,down,right
-    //public static final int GAME_BACKGROUND_COLOR = new Color(4, 13, 28);
-    //public static final int GAME_BACKGROUND_COLOR = new Color(4, 13, 28);
-
-
     private Constants(){
     }
 }

@@ -2,7 +2,6 @@ import java.awt.image.BufferedImage;
 import java.awt.*;
 
 public class Drone extends Entity {
-
     private double angleOfMovement; 
     private double rotationStep; 
 
@@ -14,20 +13,20 @@ public class Drone extends Entity {
 
     @Override
     void move(int direction){
-        this.setX(getMoveX(direction));
-        this.setY(getMoveY(direction));
+        this.setX(this.getX()+getMoveX(direction));
+        this.setY(this.getY()+getMoveY(direction));
     }
 
     int getMoveX(int direction){
         int step = super.getStepDistance()*direction;
         double angleOfMovementDeg = Math.toRadians(this.angleOfMovement);
-        return (int)(this.getX()+Math.cos(angleOfMovementDeg)*step);
+        return (int)(Math.cos(angleOfMovementDeg)*step);
     }
 
     int getMoveY(int direction){
         int step = super.getStepDistance()*direction;
         double angleOfMovementDeg = Math.toRadians(this.angleOfMovement);
-        return (int)(this.getY()+Math.sin(angleOfMovementDeg)*step);
+        return (int)(Math.sin(angleOfMovementDeg)*step);
     }
 
     void rotate(int direction){

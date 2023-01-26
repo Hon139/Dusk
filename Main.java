@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
 public class Main{
     JFrame frame; 
     JLayeredPane mainLayeredPane; 
@@ -36,6 +35,7 @@ public class Main{
     public static void main(String [] args){
         main = new Main();
         main.launchMainMenu();
+        
         while (true){
             main.performMovementLogic();
             main.gamePanel.repaint();
@@ -46,9 +46,7 @@ public class Main{
         frame = new JFrame(Constants.GAME_NAME);
         Ui.setupFrame(frame, Constants.WIDTH, Constants.HEIGHT, ".//Assets//dusks.png");
         frame.addKeyListener(new MainKeyListener());        
-
         map = new Map(Constants.BORDER);
-
         gamePanel = new GraphicsPanel();
         gamePanel.setVisible(true);
         gamePanel.setOpaque(true);
@@ -112,7 +110,6 @@ public class Main{
         consoleTextField.setText(">");
     }
 
-
     public class MainActionListener implements ActionListener{  
         public void actionPerformed(ActionEvent e){
             if (e.getSource() == playButton){
@@ -123,7 +120,7 @@ public class Main{
             }
         }
     }
-
+    
     public class MainKeyListener implements KeyListener{   
         public void keyPressed(KeyEvent e){
             if (consoleTextField.isFocusOwner()){
