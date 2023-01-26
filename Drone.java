@@ -5,8 +5,8 @@ public class Drone extends Entity {
     private double angleOfMovement; 
     private double rotationStep; 
 
-    Drone(int xPos,int yPos, int maxLifePoints,int stepDistance,Image entityImage, int DiameterSize, double rotationStep){
-        super(xPos, yPos, maxLifePoints, stepDistance, entityImage,DiameterSize);
+    Drone(int xPos,int yPos,int stepDistance,Image entityImage, int DiameterSize, double rotationStep){
+        super(xPos, yPos, stepDistance, entityImage,DiameterSize);
         this.angleOfMovement = 0;
         this.rotationStep = rotationStep; 
     }

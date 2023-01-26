@@ -21,9 +21,9 @@ public class Constants{
 
     public static final int DRONE_SIZE = 130;
     public static final int DRONE_SPEED = 10;
-    public static final int DRONE_ROTATE_SPEED = 8;
-
-    public static final int[] BORDER = {0,0,5000,8000}; //top,left,down,right
+    public static final int DRONE_ROTATE_SPEED = 10;
+    public static final int ENEMY_SIZE = 200;
+    public static final int[] BORDER = {0,0,7000,5000}; //top,left,down,right
     private Constants(){
     }
 }

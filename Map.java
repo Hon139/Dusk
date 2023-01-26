@@ -10,14 +10,21 @@ public class Map{
 
     Map(int[] bounds){
         BufferedImage droneImage = Utilities.iconToBufferedImage(Utilities.scaleImage(new ImageIcon(Drone.createDroneImage()), Constants.DRONE_SIZE, Constants.DRONE_SIZE));
-        primaryDrone = new Drone(0,0, 0, Constants.DRONE_SPEED, droneImage, Constants.DRONE_SIZE, Constants.DRONE_ROTATE_SPEED);
+        primaryDrone = new Drone(0,0,Constants.DRONE_SPEED, droneImage, Constants.DRONE_SIZE, Constants.DRONE_ROTATE_SPEED);
         this.bounds = bounds;
         enemies = new ArrayList<Enemy>();
     }
 
-    public void generateEnemies(){
-        
-
+    public void generateEnemies(int numOfEnemies,int[] borderBounds){
+        final int borderOffset = 25; 
+        for (int i =0;i< numOfEnemies;i++){
+            int randX = Utilities.getRandomInt(borderOffset, borderBounds[2]);
+            int randY = Utilities.getRandomInt(borderOffset, borderBounds[3]);
+            BufferedImage enemyImage = Enemy.createEnemyImage(Color.RED);
+            int enemySpeed = Constants.DRONE_SPEED/2;
+            Enemy newEnemy = new Enemy(randX,randY,enemySpeed,enemyImage,enemyImage.getHeight());
+            enemies.add(newEnemy);
+        }
     }
 
     public void drawBorders(Graphics g,int offsetX, int offsetY){
@@ -27,14 +34,27 @@ public class Map{
         g2d.setColor(Color.white);
         g2d.setStroke(new BasicStroke(20));
         g2d.drawRect(bounds[0]+offsetX, bounds[1]+offsetY, bounds[2], bounds[3]);
+        g2d.setColor(Color.GRAY);
+        g2d.setStroke(new BasicStroke(1));
 
-        for (int i =0;i<Constants.BORDER[3]){}
+        for (int i =0;i<(int)Constants.BORDER[2]/100;i++){
+            g2d.drawLine(i*100+offsetX,offsetY,i*100+offsetX,Constants.BORDER[3]+offsetY);
+        }
+
+        for (int i =0;i<(int)Constants.BORDER[3]/100;i++){
+            g2d.drawLine(offsetX,i*100+offsetY,Constants.BORDER[2]+offsetX,i*100+offsetY);
+        }
     }
 
-    public void drawEntities(){}
+    public void drawEntities(Graphics g){
+        for (int i = 0; i < enemies.size();i++){
+            enemies.get(i).paintEntityCenter(g);
+        }
+    }
 
     public void drawMap(Graphics g){
         drawBorders(g,primaryDrone.getX(),primaryDrone.getY());
+        drawEntities(g);
         drawDrone(g);
         
     }
@@ -43,8 +63,6 @@ public class Map{
         boolean returnStatus = false;
         int droneX = primaryDrone.getX()+primaryDrone.getMoveX(direction);
         int droneY = primaryDrone.getY()+primaryDrone.getMoveY(direction);
-        System.out.println(primaryDrone.getX());
-        System.out.println(primaryDrone.getY());
 
         if (!(droneX+primaryDrone.getDiameterSize()/2 <bounds[0]+Constants.WIDTH/2)){
             returnStatus = true;
