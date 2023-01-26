@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Arrays;
 public class Main{
     JFrame frame; 
     JLayeredPane mainLayeredPane; 
@@ -24,6 +25,8 @@ public class Main{
     JLabel consoleHistory;
     JTextField consoleTextField;
     JPanel consolePanel;
+
+    boolean scanning = false; 
 
     Map map;
 
@@ -76,7 +79,7 @@ public class Main{
         frame.add(mainLayeredPane);
         frame.repaint();
         frame.revalidate();
-    }
+    }   
 
     public void launchMainMenu(){
         Ui.launchMainMenu(mainLayeredPane, playButton, settingButton, exitButton);
@@ -95,8 +98,11 @@ public class Main{
                 if (leftKey || rightKey || upKey || downKey){lastMovementMillis = System.currentTimeMillis();}
                 if (leftKey){map.getDrone().rotate(-1);}
                 if (rightKey){map.getDrone().rotate(1);}
-                if (downKey && !map.willCollidingWithBorder(-1)){map.getDrone().move(-1);}
-                if (upKey && !map.willCollidingWithBorder(1)){map.getDrone().move(1);}
+                if (downKey && !map.willCollideWithBorder(-1)){map.getDrone().move(-1);}
+                if (upKey && !map.willCollideWithBorder(1)){map.getDrone().move(1);}
+            }
+            if (scanning == true){
+                map.scan();
             }
             try{Thread.sleep(Constants.TICK_SPEED_MILLISECONDS);} catch (InterruptedException e){}
         }
@@ -105,9 +111,26 @@ public class Main{
     public void pushConsoleCommand(){
         int length = consoleHistory.getText().length();
         String inputText = Utilities.cleanString(consoleTextField.getText());
+        boolean commandStatus = performConsoleCommands(inputText);
+        if (commandStatus == false){
         consoleHistory.setText(consoleHistory.getText().substring(0,length-6)+"\""+inputText+"\""+" Isn't recognized!"+"<br>"+consoleHistory.getText().substring(length-6));
+        }
         consoleHistory.setText(consoleHistory.getText().substring(0,length-6)+consoleTextField.getText()+"<br>"+consoleHistory.getText().substring(length-6));
         consoleTextField.setText(">");
+    }
+
+    public boolean performConsoleCommands(String command){
+        String[] knownCommands = {"scan","scanner","shock","blast","detonate"};
+        if (Arrays.deepToString(knownCommands).contains(command)!=true){
+            return false;
+        }
+        if (command.equals(knownCommands[0]) || command.equals(knownCommands[1])){
+            this.scanning = !this.scanning;
+        }
+        if (command.equals(knownCommands[2]) || command.equals(knownCommands[3]) || command.equals(knownCommands[4])){
+            map.blastWave();
+        }
+        return true;
     }
 
     public class MainActionListener implements ActionListener{  
@@ -124,15 +147,24 @@ public class Main{
     public class MainKeyListener implements KeyListener{   
         public void keyPressed(KeyEvent e){
             if (consoleTextField.isFocusOwner()){
+                if (e.getKeyCode() == KeyEvent.VK_TAB){
+                    gamePanel.requestFocusInWindow();
+                }
                 if (e.getKeyCode() == KeyEvent.VK_ENTER){
                     pushConsoleCommand();
                 }
 
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
-                    gamePanel.requestFocus();
+                    gamePanel.requestFocusInWindow();
                 }
             }   
             if (!consoleTextField.isFocusOwner()){
+                if (e.getKeyCode() == KeyEvent.VK_TAB){
+                    consoleTextField.grabFocus();
+                    consoleTextField.requestFocusInWindow();
+                    consoleTextField.isFocusable();
+                    consoleTextField.validate();
+                }
                 if (e.getKeyCode() == KeyEvent.VK_UP){
                     upKey = true; 
                 } 
@@ -181,12 +213,10 @@ public class Main{
             if (e.getKeyCode() == KeyEvent.VK_ENTER){
                 enterKey = false;
             } 
-
         }   
         public void keyTyped(KeyEvent e){
         }           
     }   
-
 
     public class MainMouseListener implements MouseListener{
         public void mouseClicked(MouseEvent e){   // moves the box at the mouse location

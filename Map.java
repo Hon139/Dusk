@@ -12,14 +12,18 @@ public class Map{
         BufferedImage droneImage = Utilities.iconToBufferedImage(Utilities.scaleImage(new ImageIcon
         (Drone.createDroneImage()), Constants.DRONE_SIZE, Constants.DRONE_SIZE));
         primaryDrone = new Drone(0,0,Constants.DRONE_SPEED, 
-        droneImage, Constants.DRONE_SIZE, Constants.DRONE_ROTATE_SPEED);
+        droneImage, Constants.DRONE_SIZE, Constants.DRONE_ROTATE_SPEED, Constants.DRONE_SCAN_RADIUS);
         this.bounds = bounds;
         enemies = new ArrayList<Enemy>();
         generateEnemies(38, bounds);
     }
 
+    public int getEnemiesLeft(){
+        return this.enemies.size();
+    }
+
     public void generateEnemies(int numOfEnemies,int[] borderBounds){
-        final int borderOffset = 25; 
+        final int borderOffset = Constants.ENEMY_SIZE; 
         for (int i =0;i< numOfEnemies;i++){
             int randX = Utilities.getRandomInt(borderOffset, borderBounds[2]);
             int randY = Utilities.getRandomInt(borderOffset, borderBounds[3]);
@@ -43,7 +47,6 @@ public class Map{
         for (int i =0;i<(int)Constants.BORDER[2]/100;i++){
             g2d.drawLine(i*100+offsetX,offsetY,i*100+offsetX,Constants.BORDER[3]+offsetY);
         }
-
         for (int i =0;i<(int)Constants.BORDER[3]/100;i++){
             g2d.drawLine(offsetX,i*100+offsetY,Constants.BORDER[2]+offsetX,i*100+offsetY);
         }
@@ -65,7 +68,7 @@ public class Map{
         drawDrone(g);
     }
 
-    public boolean willCollidingWithBorder(int direction){
+    public boolean willCollideWithBorder(int direction){
         boolean returnStatus = false;
         int droneX = primaryDrone.getX()+primaryDrone.getMoveX(direction);
         int droneY = primaryDrone.getY()+primaryDrone.getMoveY(direction);
@@ -86,5 +89,26 @@ public class Map{
 
     public Drone getDrone(){
         return primaryDrone;
+    }
+
+    public void scan(){
+        for (Enemy i: enemies){
+            if (Utilities.withinRange(new int[]{primaryDrone.getX()+i.getX()-i.getDiameterSize()/2,primaryDrone.getY()+i.getY()-i.getDiameterSize()/2},new int[]{Constants.WIDTH/2,Constants.HEIGHT/2}, primaryDrone.getScanRange())){
+                i.setVisibility(255);
+            }
+        }
+    }
+
+    public void blastWave(){
+        boolean popLoop;
+        do{
+            popLoop = false;
+            for (int i =0; i < enemies.size();i++){
+                if (Utilities.withinRange(new int[]{primaryDrone.getX()+enemies.get(i).getX()-enemies.get(i).getDiameterSize()/2,primaryDrone.getY()+enemies.get(i).getY()-enemies.get(i).getDiameterSize()/2},new int[]{Constants.WIDTH/2,Constants.HEIGHT/2}, primaryDrone.getScanRange())){
+                    enemies.remove(i);
+                    popLoop = true;
+                }
+            }
+        }while(popLoop != false);
     }
 }

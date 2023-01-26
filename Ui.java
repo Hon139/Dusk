@@ -54,10 +54,9 @@ public class Ui{
         Border lineBorder = BorderFactory.createLineBorder(Color.gray, 1);
         Border marginBorder = new EmptyBorder(0, 5, 0, 0); 
         CompoundBorder border = new CompoundBorder(lineBorder, marginBorder);
-
         panel.setBounds(950,555,panelWidth,panelHeight);
         panel.setLayout(null);
-
+        
         textHistory.setBorder(border);
         textHistory.setBackground(new Color(0,0,0));
         textHistory.setBounds(0,0 ,panelWidth,panelHeight-fieldHeight);
@@ -84,22 +83,18 @@ public class Ui{
         JLabel title = new JLabel(Constants.GAME_NAME); 
         title.setForeground(new Color(255,255,255,150));
         title.setFont(Constants.TITLE_FONT);
-
         exitButton.setText("Exit");
         Ui.FormatMenuButton(exitButton,(int)Constants.BUTTON_SIZE.getWidth(),(int)Constants.BUTTON_SIZE.getHeight(),Constants.BUTTON_TEXTURE_FILE_PATH);
         settingButton.setText("Setting");
-
         Ui.FormatMenuButton(settingButton,(int)Constants.BUTTON_SIZE.getWidth(),(int)Constants.BUTTON_SIZE.getHeight(),Constants.BUTTON_TEXTURE_FILE_PATH);
         playButton.setText("Play");
         Ui.FormatMenuButton(playButton,(int)Constants.BUTTON_SIZE.getWidth(),(int)Constants.BUTTON_SIZE.getHeight(),Constants.BUTTON_TEXTURE_FILE_PATH);
-
         JPanel foregroundLayer = new JPanel(new FlowLayout(FlowLayout.CENTER,1000,40)); 
         FormatMenuForegroundPanel(foregroundLayer);
         foregroundLayer.add(title);
         foregroundLayer.add(playButton);
         foregroundLayer.add(settingButton); 
         foregroundLayer.add(exitButton); 
-
         mainLayeredPane.add(foregroundLayer,JLayeredPane.PALETTE_LAYER);
     }
 

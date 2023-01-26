@@ -14,16 +14,16 @@ public class Constants{
     public static final Dimension BUTTON_SIZE = new Dimension(500,110); 
 
     public static final int MOVEMENT_INPUT_DELAY = 20;
-
     public static final String BUTTON_TEXTURE_FILE_PATH = ".//Assets//MetalTexture.jpg";
-
     public static final Color GAME_BACKGROUND_COLOR = new Color(4, 5, 13);
 
     public static final int DRONE_SIZE = 130;
     public static final int DRONE_SPEED = 10;
-    public static final int DRONE_ROTATE_SPEED = 10;
+    public static final int DRONE_ROTATE_SPEED = 5;
     public static final int ENEMY_SIZE = 200;
-    public static final int[] BORDER = {0,0,7000,5000}; //top,left,down,right
+    public static final int[] BORDER = {0,0,7000,5000}; //rect
+    public static final int DRONE_SCAN_RADIUS = 500; 
+
     private Constants(){
     }
 }

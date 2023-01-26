@@ -56,10 +56,9 @@ public class Utilities{
     }
 
     public static boolean withinRange(int[] coords, int[] coords2, int maxDistance){
-
-        return true;
+        int distance = (int)(Math.sqrt(Math.pow((coords2[0]-coords[0]),2)+Math.pow((coords2[1]-coords[1]),2)));
+        return (distance <= maxDistance);
     }
-
 
     private Utilities(){}
 }
