@@ -19,11 +19,9 @@ public class Utilities{
         for (int i =0; i<ticketCounts.length;i++){
             totalProbabilityTickets += ticketCounts[i];
         }
-
         int randNum = (int)(Math.random()*totalProbabilityTickets);
-
         for (int i = 0; i< ticketCounts.length ;i++){
-            if (randNum <= ticketCounts[i]){
+            if (randNum < ticketCounts[i]){
                 return i; 
             } else {
                 randNum -= ticketCounts[i];

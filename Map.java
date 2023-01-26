@@ -2,12 +2,11 @@ import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import java.awt.image.BufferedImage;
-
 public class Map{
     int[] bounds; 
     ArrayList<Enemy> enemies;
     Drone primaryDrone; 
-
+    int enemyDetectionRadius;
     Map(int[] bounds){
         BufferedImage droneImage = Utilities.iconToBufferedImage(Utilities.scaleImage(new ImageIcon
         (Drone.createDroneImage()), Constants.DRONE_SIZE, Constants.DRONE_SIZE));
@@ -15,6 +14,7 @@ public class Map{
         droneImage, Constants.DRONE_SIZE, Constants.DRONE_ROTATE_SPEED, Constants.DRONE_SCAN_RADIUS);
         this.bounds = bounds;
         enemies = new ArrayList<Enemy>();
+        this.enemyDetectionRadius = 3000;
         generateEnemies(38, bounds);
     }
 
@@ -27,9 +27,10 @@ public class Map{
         for (int i =0;i< numOfEnemies;i++){
             int randX = Utilities.getRandomInt(borderOffset, borderBounds[2]);
             int randY = Utilities.getRandomInt(borderOffset, borderBounds[3]);
+            int type = Utilities.getWeightedRandom(new int[]{2,1});
             BufferedImage enemyImage = Enemy.createEnemyImage(Color.RED);
             int enemySpeed = Constants.DRONE_SPEED/2;
-            Enemy newEnemy = new Enemy(randX,randY,enemySpeed,enemyImage,enemyImage.getHeight());
+            Enemy newEnemy = new Enemy(randX,randY,enemySpeed,enemyImage,enemyImage.getHeight(),type, Constants.enemyDetectionRadius);
             enemies.add(newEnemy);
         }
     }
@@ -66,6 +67,12 @@ public class Map{
         drawBorders(g,primaryDrone.getX(),primaryDrone.getY());
         drawEntities(g);
         drawDrone(g);
+    }
+
+    public void tickEnemyAi(){
+        for (Enemy i: enemies){
+            i.makeAiChoice(primaryDrone);
+        }
     }
 
     public boolean willCollideWithBorder(int direction){

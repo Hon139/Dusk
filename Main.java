@@ -104,6 +104,8 @@ public class Main{
             if (scanning == true){
                 map.scan();
             }
+
+            map.tickEnemyAi();
             try{Thread.sleep(Constants.TICK_SPEED_MILLISECONDS);} catch (InterruptedException e){}
         }
     }

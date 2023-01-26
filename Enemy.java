@@ -3,14 +3,21 @@ import java.awt.*;
 import java.util.Queue;
 public class Enemy extends Entity{
     
-    Queue<int[]> movementLocations;
-    int visibility;
-    Color baseColor;
+    private Queue<int[]> movementLocations;
+    private int visibility;
+    private Color baseColor;
+    private int type; 
+    private int detectionRange; 
 
-    Enemy(int xPos, int yPos, int stepDistance, Image entityImage, int diameterSize) {
+    Enemy(int xPos, int yPos, int stepDistance, Image entityImage, int diameterSize,int type,int detectionRange) {
         super(xPos, yPos, stepDistance, entityImage,diameterSize);
         this.visibility = 0;
-        baseColor = Color.RED;
+        this.type = type;
+        if (type == 0){
+            this.baseColor = Color.RED;
+        } else {
+            this.baseColor = Color.MAGENTA;
+        }
     }
  
     public static BufferedImage createEnemyImage(Color color){
@@ -26,13 +33,24 @@ public class Enemy extends Entity{
         return bufferedImage; 
     }
     
-    public BufferedImage getNewImage(Color baseColor,int alphaValue){
-        Color enemyBaseColor = new Color(baseColor.getRed(),baseColor.getGreen(),baseColor.getBlue(),visibility);
+    public BufferedImage getNewImage(int alphaValue){
+        Color enemyBaseColor = new Color(this.baseColor.getRed(),this.baseColor.getGreen(),this.baseColor.getBlue(),visibility);
         return createEnemyImage(enemyBaseColor);
     }
 
-    public void makeAiChoice(){
-        Utilities.getRandomInt(0, getDiameterSize());
+    public void makeAiChoice(Drone primaryDrone){
+        if (type == 0){} else {
+
+        if (Utilities.withinRange(new int[]{primaryDrone.getX()+this.getX()-this.getDiameterSize()/2,primaryDrone.getY()+this.getY()-this.getDiameterSize()/2},new int[]{Constants.WIDTH/2,Constants.HEIGHT/2},detectionRange)){
+            this.move(new int[]{primaryDrone.getX()+this.getX()-this.getDiameterSize()/2,primaryDrone.getY()+this.getY()-this.getDiameterSize()/2});
+        } else {
+            int randX = Utilities.getRandomInt(-getDiameterSize(), getDiameterSize());
+            int randY =Utilities.getRandomInt(-getDiameterSize(), getDiameterSize());
+            this.move(new int[]{getX()+randX+primaryDrone.getX(),getY()+randY+primaryDrone.getY()});
+        }
+
+        }
+        
     }
 
     public void move(int[] destinationCoord){
@@ -40,7 +58,8 @@ public class Enemy extends Entity{
         int yDiff = getY() - destinationCoord[1];
         int newX;
         int newY;
-        if (xDiff != 0 || yDiff != 0){
+        
+        if (xDiff != 0 && yDiff != 0){
         double angleRadians = Math.acos((yDiff/xDiff));
         newX = (int)(Math.cos(angleRadians)*this.getStepDistance()+getX());
         newY = (int)(Math.sin(angleRadians)*this.getStepDistance()+getY());
@@ -58,11 +77,15 @@ public class Enemy extends Entity{
         if (visibility != 0){visibility--;}
         
 
-        g.drawImage(getNewImage(Color.RED,visibility),offsetX+getX()-this.getDiameterSize()/2,
+        g.drawImage(getNewImage(visibility),offsetX+getX()-this.getDiameterSize()/2,
         offsetY+getY()-this.getDiameterSize()/2,null);
     }
 
     public void setVisibility(int visibility){
         this.visibility = visibility; 
+    }
+
+    public void setDetectionRange(int newDetectionRadius){
+        this.detectionRange = newDetectionRadius;
     }
 }
