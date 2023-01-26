@@ -55,5 +55,11 @@ public class Utilities{
         return bufferedImage;
     }
 
+    public static boolean withinRange(int[] coords, int[] coords2, int maxDistance){
+
+        return true;
+    }
+
+
     private Utilities(){}
 }

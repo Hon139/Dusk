@@ -9,10 +9,13 @@ public class Map{
     Drone primaryDrone; 
 
     Map(int[] bounds){
-        BufferedImage droneImage = Utilities.iconToBufferedImage(Utilities.scaleImage(new ImageIcon(Drone.createDroneImage()), Constants.DRONE_SIZE, Constants.DRONE_SIZE));
-        primaryDrone = new Drone(0,0,Constants.DRONE_SPEED, droneImage, Constants.DRONE_SIZE, Constants.DRONE_ROTATE_SPEED);
+        BufferedImage droneImage = Utilities.iconToBufferedImage(Utilities.scaleImage(new ImageIcon
+        (Drone.createDroneImage()), Constants.DRONE_SIZE, Constants.DRONE_SIZE));
+        primaryDrone = new Drone(0,0,Constants.DRONE_SPEED, 
+        droneImage, Constants.DRONE_SIZE, Constants.DRONE_ROTATE_SPEED);
         this.bounds = bounds;
         enemies = new ArrayList<Enemy>();
+        generateEnemies(38, bounds);
     }
 
     public void generateEnemies(int numOfEnemies,int[] borderBounds){
@@ -27,7 +30,7 @@ public class Map{
         }
     }
 
-    public void drawBorders(Graphics g,int offsetX, int offsetY){
+    private void drawBorders(Graphics g,int offsetX, int offsetY){
         Graphics2D g2d = (Graphics2D)g;
         g2d.setColor(Constants.GAME_BACKGROUND_COLOR);
         g2d.fillRect(00+offsetX, 0+offsetY, 500, 300);
@@ -46,24 +49,26 @@ public class Map{
         }
     }
 
-    public void drawEntities(Graphics g){
+    private void drawEntities(Graphics g){
         for (int i = 0; i < enemies.size();i++){
-            enemies.get(i).paintEntityCenter(g);
+            enemies.get(i).paintEntityCenter(g,primaryDrone.getX(),primaryDrone.getY());
         }
+    }
+    
+    private void drawDrone(Graphics g){
+        primaryDrone.paintEntityCenter(g);
     }
 
     public void drawMap(Graphics g){
         drawBorders(g,primaryDrone.getX(),primaryDrone.getY());
         drawEntities(g);
         drawDrone(g);
-        
     }
 
     public boolean willCollidingWithBorder(int direction){
         boolean returnStatus = false;
         int droneX = primaryDrone.getX()+primaryDrone.getMoveX(direction);
         int droneY = primaryDrone.getY()+primaryDrone.getMoveY(direction);
-
         if (!(droneX+primaryDrone.getDiameterSize()/2 <bounds[0]+Constants.WIDTH/2)){
             returnStatus = true;
         }
@@ -79,14 +84,7 @@ public class Map{
         return returnStatus; 
     }
 
-    public void drawDrone(Graphics g){
-        primaryDrone.paintEntityCenter(g);
-    }
-
     public Drone getDrone(){
         return primaryDrone;
     }
-
-
-
 }
