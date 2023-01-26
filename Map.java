@@ -7,6 +7,7 @@ public class Map{
     ArrayList<Enemy> enemies;
     Drone primaryDrone; 
     int enemyDetectionRadius;
+    long startTime = System.currentTimeMillis();
     Map(int[] bounds){
         BufferedImage droneImage = Utilities.iconToBufferedImage(Utilities.scaleImage(new ImageIcon
         (Drone.createDroneImage()), Constants.DRONE_SIZE, Constants.DRONE_SIZE));
@@ -18,39 +19,39 @@ public class Map{
         generateEnemies(38, bounds);
     }
 
-    public int getEnemiesLeft(){
-        return this.enemies.size();
-    }
-
     public void generateEnemies(int numOfEnemies,int[] borderBounds){
         final int borderOffset = Constants.ENEMY_SIZE; 
         for (int i =0;i< numOfEnemies;i++){
             int randX = Utilities.getRandomInt(borderOffset, borderBounds[2]);
             int randY = Utilities.getRandomInt(borderOffset, borderBounds[3]);
-            int type = Utilities.getWeightedRandom(new int[]{2,1});
+            int type = Utilities.getWeightedRandom(new int[]{4,3});
             BufferedImage enemyImage = Enemy.createEnemyImage(Color.RED);
-            int enemySpeed = Constants.DRONE_SPEED/2;
-            Enemy newEnemy = new Enemy(randX,randY,enemySpeed,enemyImage,enemyImage.getHeight(),type, Constants.enemyDetectionRadius);
+            int enemySpeed = Constants.DRONE_SPEED/4;
+            Color baseColor; 
+            if (type ==0){baseColor = Color.RED;}else{baseColor = Color.MAGENTA;}
+            Enemy newEnemy = new Enemy(randX,randY,(enemySpeed*type),enemyImage,enemyImage.getHeight(),baseColor);
             enemies.add(newEnemy);
         }
+    }
+    public int getEnemiesLeft(){
+        return this.enemies.size();
     }
 
     private void drawBorders(Graphics g,int offsetX, int offsetY){
         Graphics2D g2d = (Graphics2D)g;
-        g2d.setColor(Constants.GAME_BACKGROUND_COLOR);
-        g2d.fillRect(00+offsetX, 0+offsetY, 500, 300);
-        g2d.setColor(Color.white);
-        g2d.setStroke(new BasicStroke(20));
-        g2d.drawRect(bounds[0]+offsetX, bounds[1]+offsetY, bounds[2], bounds[3]);
+
         g2d.setColor(Color.GRAY);
         g2d.setStroke(new BasicStroke(1));
-
         for (int i =0;i<(int)Constants.BORDER[2]/100;i++){
             g2d.drawLine(i*100+offsetX,offsetY,i*100+offsetX,Constants.BORDER[3]+offsetY);
         }
         for (int i =0;i<(int)Constants.BORDER[3]/100;i++){
             g2d.drawLine(offsetX,i*100+offsetY,Constants.BORDER[2]+offsetX,i*100+offsetY);
         }
+        g2d.setColor(Constants.GAME_BACKGROUND_COLOR);
+        g2d.setColor(Color.white);
+        g2d.setStroke(new BasicStroke(20));
+        g2d.drawRect(bounds[0]+offsetX, bounds[1]+offsetY, bounds[2], bounds[3]);
     }
 
     private void drawEntities(Graphics g){
@@ -63,16 +64,33 @@ public class Map{
         primaryDrone.paintEntityCenter(g);
     }
 
+    private void drawTimer(Graphics g){
+        g.setColor(new Color(91, 209, 73));
+        g.setFont(Constants.MENU_FONT);
+        g.drawString("Time Elapsed: "+((int)(System.currentTimeMillis()-startTime)/1000),20,50);
+    }
+
     public void drawMap(Graphics g){
         drawBorders(g,primaryDrone.getX(),primaryDrone.getY());
         drawEntities(g);
         drawDrone(g);
+        drawTimer(g);
     }
 
     public void tickEnemyAi(){
         for (Enemy i: enemies){
             i.makeAiChoice(primaryDrone);
         }
+    }
+
+    public boolean isAttacked(){
+        for (Enemy i: enemies){
+            if (Utilities.withinRange(new int[]{primaryDrone.getX()+i.getX(),primaryDrone.getY()+i.getY()},new int[]{Constants.WIDTH/2,Constants.HEIGHT/2}, primaryDrone.getDiameterSize())){
+                System.out.println(i.getX()+"   "+i.getY()+"    "+primaryDrone.getX()+"     "+primaryDrone.getY()+"     " +Constants.WIDTH/2+"   "+Constants.HEIGHT/2);
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean willCollideWithBorder(int direction){

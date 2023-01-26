@@ -20,7 +20,8 @@ public class Main{
 
     JButton exitButton; 
     JButton playButton;
-    JButton settingButton;
+    JButton controlButton;
+    JButton restarButton;
 
     JLabel consoleHistory;
     JTextField consoleTextField;
@@ -30,15 +31,19 @@ public class Main{
 
     Map map;
 
+    long lastBlastMillis = 0;
+    int blastDelay = 7000;
+
+
     int gameState = 0;
     final static int GAME_STATE_MENU = 0;
     final int GAME_STATE_MAIN_GAME = 1;
     final static int GAME_STATE_PAUSED = -1;
+    final static int GAME_STATE_OVER = 2;
 
     public static void main(String [] args){
         main = new Main();
         main.launchMainMenu();
-        
         while (true){
             main.performMovementLogic();
             main.gamePanel.repaint();
@@ -54,7 +59,6 @@ public class Main{
         gamePanel.setVisible(true);
         gamePanel.setOpaque(true);
         gamePanel.setBounds(0,0,Constants.WIDTH,Constants.HEIGHT);
-        gamePanel.addMouseListener(new MainMouseListener());
         gamePanel.addKeyListener(new MainKeyListener());
         gamePanel.setFocusable(true);
 
@@ -68,12 +72,14 @@ public class Main{
         consolePanel = new JPanel();
         consoleTextField.addKeyListener(new MainKeyListener());
 
+        restarButton = new JButton();
+        restarButton.addActionListener(new MainActionListener());
         exitButton = new JButton();
         exitButton.addActionListener(new MainActionListener());
         playButton = new JButton();
         playButton.addActionListener(new MainActionListener());
-        settingButton = new JButton();
-        settingButton.addActionListener(new MainActionListener()); 
+        controlButton = new JButton();
+        controlButton.addActionListener(new MainActionListener()); 
 
         frame.setFocusable(true);
         frame.add(mainLayeredPane);
@@ -81,14 +87,26 @@ public class Main{
         frame.revalidate();
     }   
 
+    public void resetGameVariables(){
+       leftKey = false; 
+       rightKey = false;
+       upKey = false;
+       downKey = false;
+       escapeKey = false;
+       enterKey = false;
+       scanning = false;
+       consoleTextField.setText(">Input Commands Here");
+       consoleHistory.setText("<html><html>");
+    }
+
     public void launchMainMenu(){
-        Ui.launchMainMenu(mainLayeredPane, playButton, settingButton, exitButton);
+        Ui.launchMainMenu(mainLayeredPane, playButton, controlButton, exitButton);
     }
 
     public void launchMainGame(){
         Ui.launchMainGame(mainLayeredPane, gamePanel);
-        gameState = main.GAME_STATE_MAIN_GAME;
         Ui.setupConsole(consolePanel, consoleTextField,consoleHistory);
+        gameState = main.GAME_STATE_MAIN_GAME;
         mainLayeredPane.add(consolePanel,JLayeredPane.POPUP_LAYER);
     }
 
@@ -104,18 +122,27 @@ public class Main{
             if (scanning == true){
                 map.scan();
             }
-
             map.tickEnemyAi();
+            if (map.isAttacked() == true){
+                gameOverMenu();
+            }
+
             try{Thread.sleep(Constants.TICK_SPEED_MILLISECONDS);} catch (InterruptedException e){}
         }
     }
 
+    public void gameOverMenu(){
+        Ui.launchGameOverScreen(mainLayeredPane, restarButton, exitButton);
+        gameState = GAME_STATE_OVER;
+    }
+
+    // utilizing html formmating to create new lines since \n doesn't work apparently
     public void pushConsoleCommand(){
         int length = consoleHistory.getText().length();
         String inputText = Utilities.cleanString(consoleTextField.getText());
         boolean commandStatus = performConsoleCommands(inputText);
         if (commandStatus == false){
-        consoleHistory.setText(consoleHistory.getText().substring(0,length-6)+"\""+inputText+"\""+" Isn't recognized!"+"<br>"+consoleHistory.getText().substring(length-6));
+            consoleHistory.setText(consoleHistory.getText().substring(0,length-6)+"\""+inputText+"\""+" Isn't recognized!"+"<br>"+consoleHistory.getText().substring(length-6));
         }
         consoleHistory.setText(consoleHistory.getText().substring(0,length-6)+consoleTextField.getText()+"<br>"+consoleHistory.getText().substring(length-6));
         consoleTextField.setText(">");
@@ -130,7 +157,13 @@ public class Main{
             this.scanning = !this.scanning;
         }
         if (command.equals(knownCommands[2]) || command.equals(knownCommands[3]) || command.equals(knownCommands[4])){
-            map.blastWave();
+            if (blastDelay <= System.currentTimeMillis()-lastBlastMillis){
+                map.blastWave();
+                lastBlastMillis = System.currentTimeMillis();
+            } else {
+                int length = consoleHistory.getText().length();
+                consoleHistory.setText(consoleHistory.getText().substring(0,length-6)+" COMMAND ON COOL DOWN "+"<br>"+consoleHistory.getText().substring(length-6));
+            }
         }
         return true;
     }
@@ -142,6 +175,11 @@ public class Main{
             }
             if (e.getSource() == exitButton){
                 frame.dispose();
+            }
+            if (e.getSource() == restarButton){
+                map = new Map(Constants.BORDER);
+                main.launchMainGame();
+                resetGameVariables();
             }
         }
     }
@@ -219,19 +257,6 @@ public class Main{
         public void keyTyped(KeyEvent e){
         }           
     }   
-
-    public class MainMouseListener implements MouseListener{
-        public void mouseClicked(MouseEvent e){   // moves the box at the mouse location
-        }
-        public void mousePressed(MouseEvent e){   // MUST be implemented even if not used!
-        }
-        public void mouseReleased(MouseEvent e){  // MUST be implemented even if not used!
-        }
-        public void mouseEntered(MouseEvent e){   // MUST be implemented even if not used!
-        }
-        public void mouseExited(MouseEvent e){    // MUST be implemented even if not used!
-        }
-    }  
 
     public class GraphicsPanel extends JPanel{
         public void paintComponent(Graphics g){
