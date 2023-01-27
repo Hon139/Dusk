@@ -12,6 +12,8 @@ public class Utilities{
         return (int)((lowerBound)+(Math.random()*(upperBound-lowerBound+1)));
     }
 
+    // pick random number based on lottery ticket system 
+    // outputs a number from 0 to amount of ticket specifications minus 1 
     public static int getWeightedRandom(int[] ticketCounts){
         int totalProbabilityTickets = 0; 
         for (int i =0; i<ticketCounts.length;i++){
@@ -28,7 +30,7 @@ public class Utilities{
         return -1; // mathamatically impossible, unless array is empty
     }
 
-    public static boolean isInRange(int lowerBound, int upperBound, int input ){
+    public static boolean isInRangeInclusive(int lowerBound, int upperBound, int input ){
             return ((lowerBound<=input)&&(upperBound>=input)); 
     }
 
@@ -42,15 +44,17 @@ public class Utilities{
         return cleanedString;
     }
 
-    public static BufferedImage iconToBufferedImage(ImageIcon icon) {
+    // Don't remember 100% but this might be a code snippet taken from somewhere
+    public static BufferedImage iconToBufferedImage(ImageIcon icon){
         BufferedImage bufferedImage = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(),
                 BufferedImage.TYPE_INT_ARGB);
         Graphics graphics = bufferedImage.createGraphics();
         icon.paintIcon(null, graphics, 0, 0);
-        graphics.dispose();//from   w  ww.j a  va  2  s.  co m
+        graphics.dispose();
         return bufferedImage;
     }
 
+    // determines if distance between two points exceeds a maximum distance parameter 
     public static boolean withinRange(int[] coords, int[] coords2, int maxDistance){
         int distance = (int)(Math.sqrt(Math.pow((coords2[0]-coords[0]),2)+Math.pow((coords2[1]-coords[1]),2)));
         return (distance <= maxDistance);

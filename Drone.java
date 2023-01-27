@@ -3,14 +3,12 @@ import java.awt.*;
 public class Drone extends Entity {
     private double angleOfMovement; 
     private double rotationStep; 
-    private boolean scaning;
     private int scannerRange; 
 
     Drone(int xPos,int yPos,int stepDistance,Image entityImage, int diameterSize, double rotationStep,int scanRadius){
         super(xPos, yPos, stepDistance, entityImage,diameterSize);
         this.angleOfMovement = 0;
         this.rotationStep = rotationStep;
-        this.scaning = false; 
         this.scannerRange = scanRadius;
     }
 
@@ -72,10 +70,6 @@ public class Drone extends Entity {
         g.drawImage(rotateImage(getImage(), angleOfMovement),Constants.WIDTH/2-this.getDiameterSize()/2,
         Constants.HEIGHT/2-this.getDiameterSize()/2,null);
     }   
-
-    public boolean getScanning(){
-        return scaning; 
-    }
 
     public int getScanRange(){
         return this.scannerRange;

@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Arrays;
 public class Main{
     JFrame frame; 
     JLayeredPane mainLayeredPane; 
@@ -29,11 +28,8 @@ public class Main{
     Map map;
 
     boolean scanning = false; 
-
-
     long lastBlastMillis = 0;
     int blastDelay = 7000;
-
 
     int gameState = 0;
     final static int GAME_STATE_MENU = 0;
@@ -124,7 +120,7 @@ public class Main{
             }
 
             if (map.getEnemiesLeft() < 3){
-                // TODO: REGENERATE
+                map.generateEnemies(Utilities.getRandomInt(10, 20));
             }
 
             map.tickEnemyAi();

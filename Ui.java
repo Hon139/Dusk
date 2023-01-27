@@ -2,10 +2,8 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
-
 import java.awt.*;
 public class Ui{
-
     public static void FormatMenuButton(JButton menuButton,int imageWidth,int imageHeight,String imagePath){
         menuButton.setForeground(new Color(255,255,255));
         menuButton.setBorderPainted(false);
@@ -30,14 +28,14 @@ public class Ui{
         frame.setVisible(true);
     }
 
-    public static void FormatMenuForegroundPanel(JPanel foregroundPanel){
+    public static void FormatForegroundPanel(JPanel foregroundPanel){
         foregroundPanel.setBackground(new Color(0,0,0,0));
         foregroundPanel.setBounds(new Rectangle(0,0,Constants.WIDTH,Constants.HEIGHT));
         foregroundPanel.setOpaque(false);
         foregroundPanel.setVisible(true);
     }
 
-    public static void setMenuBackground(JLayeredPane mainLayeredPane){
+    public static void setupMenuBackground(JLayeredPane mainLayeredPane){
         JLabel backgroundImage = new JLabel(new ImageIcon(".//Assets//static.jpg")); 
         backgroundImage.setBounds(new Rectangle(0,0,Constants.WIDTH,Constants.HEIGHT));
         backgroundImage.setVisible(true);
@@ -54,8 +52,6 @@ public class Ui{
         Border lineBorder = BorderFactory.createLineBorder(Color.gray, 1);
         Border marginBorder = new EmptyBorder(0, 5, 0, 0); 
         CompoundBorder border = new CompoundBorder(lineBorder, marginBorder);
-        panel.setBounds(950,555,panelWidth,panelHeight);
-        panel.setLayout(null);
 
         textHistory.setBorder(border);
         textHistory.setBackground(new Color(0,0,0));
@@ -73,13 +69,15 @@ public class Ui{
         textField.setSelectionColor(new Color(60, 230, 85));
         textField.setBorder(border);
 
+        panel.setBounds(950,555,panelWidth,panelHeight);
+        panel.setLayout(null);
         panel.add(textField);
         panel.add(textHistory);
     }
 
     public static void launchGameOverScreen(JLayeredPane mainLayeredPane, JButton restartButton,JButton exitButton){
         mainLayeredPane.removeAll();
-        setMenuBackground(mainLayeredPane);
+        setupMenuBackground(mainLayeredPane);
 
         JLabel title = new JLabel("GAME OVER"); 
         title.setForeground(new Color(255,255,255,150));
@@ -90,7 +88,7 @@ public class Ui{
         restartButton.setText("Restart");
         Ui.FormatMenuButton(restartButton,(int)Constants.BUTTON_SIZE.getWidth(),(int)Constants.BUTTON_SIZE.getHeight(),Constants.BUTTON_TEXTURE_FILE_PATH);
         JPanel foregroundLayer = new JPanel(new FlowLayout(FlowLayout.CENTER,1000,40)); 
-        FormatMenuForegroundPanel(foregroundLayer);
+        FormatForegroundPanel(foregroundLayer);
         foregroundLayer.add(title);
         foregroundLayer.add(restartButton);
         foregroundLayer.add(exitButton); 
@@ -99,7 +97,7 @@ public class Ui{
 
     public static void launchControlsMenu(JLayeredPane mainLayeredPane){
         mainLayeredPane.removeAll();
-        setMenuBackground(mainLayeredPane);
+        setupMenuBackground(mainLayeredPane);
         
         JLabel title = new JLabel("Controls"); 
         title.setForeground(new Color(255,255,255,150));
@@ -108,7 +106,7 @@ public class Ui{
         JLabel bodyText = new JLabel("");
         bodyText.setFont(Constants.MENU_FONT);
         bodyText.setForeground(new Color(255,255,255));
-        bodyText.setText(
+        bodyText.setText( // utilize html formmating to create line breaks as escape sequences don't work 
             "<html>Objective: Survive as long as possible"+
             "<br> Use WASD to move "+
             "<br> Utilize tools through the console"+
@@ -118,7 +116,7 @@ public class Ui{
         "<html>");
 
         JPanel foregroundLayer = new JPanel(new FlowLayout(FlowLayout.CENTER,1000,40)); 
-        FormatMenuForegroundPanel(foregroundLayer);
+        FormatForegroundPanel(foregroundLayer);
         foregroundLayer.add(title);
         foregroundLayer.add(bodyText); 
         mainLayeredPane.add(foregroundLayer,JLayeredPane.PALETTE_LAYER);
@@ -126,7 +124,7 @@ public class Ui{
 
     public static void launchMainMenu(JLayeredPane mainLayeredPane,JButton playButton, JButton controlsButton, JButton exitButton){
         mainLayeredPane.removeAll();
-        setMenuBackground(mainLayeredPane);
+        setupMenuBackground(mainLayeredPane);
         JLabel title = new JLabel(Constants.GAME_NAME); 
         title.setForeground(new Color(255,255,255,150));
         title.setFont(Constants.TITLE_FONT);
@@ -137,7 +135,7 @@ public class Ui{
         playButton.setText("Play");
         Ui.FormatMenuButton(playButton,(int)Constants.BUTTON_SIZE.getWidth(),(int)Constants.BUTTON_SIZE.getHeight(),Constants.BUTTON_TEXTURE_FILE_PATH);
         JPanel foregroundLayer = new JPanel(new FlowLayout(FlowLayout.CENTER,1000,40)); 
-        FormatMenuForegroundPanel(foregroundLayer);
+        FormatForegroundPanel(foregroundLayer);
         foregroundLayer.add(title);
         foregroundLayer.add(playButton);
         foregroundLayer.add(controlsButton); 

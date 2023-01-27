@@ -1,10 +1,10 @@
 import java.awt.Image;
 import java.awt.Graphics2D;
 abstract class Entity {
+    private Image entityImage;
+    private int stepDistance; 
     private int xPos;
     private int yPos; 
-    private int stepDistance; 
-    private Image entityImage;
     private int diameterSize; 
 
     Entity(int xPos,int yPos,int stepDistance,Image entityImage,int diameterSize){
@@ -41,10 +41,6 @@ abstract class Entity {
     
     public Image getImage(){
         return entityImage; 
-    }
-
-    public int[] getCoords(){
-        return new int[]{this.xPos,this.yPos};
     }
     
     // Utility method for drawing circles for drone & enemy class
