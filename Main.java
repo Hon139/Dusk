@@ -26,10 +26,10 @@ public class Main{
     JLabel consoleHistory;
     JTextField consoleTextField;
     JPanel consolePanel;
+    Map map;
 
     boolean scanning = false; 
 
-    Map map;
 
     long lastBlastMillis = 0;
     int blastDelay = 7000;
@@ -122,11 +122,15 @@ public class Main{
             if (scanning == true){
                 map.scan();
             }
+
+            if (map.getEnemiesLeft() < 3){
+                // TODO: REGENERATE
+            }
+
             map.tickEnemyAi();
             if (map.isAttacked() == true){
                 gameOverMenu();
             }
-
             try{Thread.sleep(Constants.TICK_SPEED_MILLISECONDS);} catch (InterruptedException e){}
         }
     }
@@ -149,14 +153,10 @@ public class Main{
     }
 
     public boolean performConsoleCommands(String command){
-        String[] knownCommands = {"scan","scanner","shock","blast","detonate"};
-        if (Arrays.deepToString(knownCommands).contains(command)!=true){
-            return false;
-        }
+        String[] knownCommands = {"scan","scanner","shock","blast","detonate","pulse"};
         if (command.equals(knownCommands[0]) || command.equals(knownCommands[1])){
             this.scanning = !this.scanning;
-        }
-        if (command.equals(knownCommands[2]) || command.equals(knownCommands[3]) || command.equals(knownCommands[4])){
+        }else if (command.equals(knownCommands[2]) || command.equals(knownCommands[3]) || command.equals(knownCommands[4])){
             if (blastDelay <= System.currentTimeMillis()-lastBlastMillis){
                 map.blastWave();
                 lastBlastMillis = System.currentTimeMillis();
@@ -164,6 +164,12 @@ public class Main{
                 int length = consoleHistory.getText().length();
                 consoleHistory.setText(consoleHistory.getText().substring(0,length-6)+" COMMAND ON COOL DOWN "+"<br>"+consoleHistory.getText().substring(length-6));
             }
+        } else if (command.equals(knownCommands[5])){
+            map.scan();
+        } else if (command.equals("exit") || command.equals("quit")){
+            frame.dispose();
+        } else {
+            return false;
         }
         return true;
     }
@@ -173,6 +179,10 @@ public class Main{
             if (e.getSource() == playButton){
                 main.launchMainGame();
             }
+            if (e.getSource() == controlButton){
+                Ui.launchControlsMenu(mainLayeredPane);
+            }
+
             if (e.getSource() == exitButton){
                 frame.dispose();
             }

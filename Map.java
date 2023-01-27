@@ -8,6 +8,7 @@ public class Map{
     Drone primaryDrone; 
     int enemyDetectionRadius;
     long startTime = System.currentTimeMillis();
+
     Map(int[] bounds){
         BufferedImage droneImage = Utilities.iconToBufferedImage(Utilities.scaleImage(new ImageIcon
         (Drone.createDroneImage()), Constants.DRONE_SIZE, Constants.DRONE_SIZE));
@@ -17,6 +18,7 @@ public class Map{
         enemies = new ArrayList<Enemy>();
         this.enemyDetectionRadius = 3000;
         generateEnemies(38, bounds);
+        blastWave(); 
     }
 
     public void generateEnemies(int numOfEnemies,int[] borderBounds){
@@ -86,7 +88,6 @@ public class Map{
     public boolean isAttacked(){
         for (Enemy i: enemies){
             if (Utilities.withinRange(new int[]{primaryDrone.getX()+i.getX(),primaryDrone.getY()+i.getY()},new int[]{Constants.WIDTH/2,Constants.HEIGHT/2}, primaryDrone.getDiameterSize())){
-                System.out.println(i.getX()+"   "+i.getY()+"    "+primaryDrone.getX()+"     "+primaryDrone.getY()+"     " +Constants.WIDTH/2+"   "+Constants.HEIGHT/2);
                 return true;
             }
         }
@@ -129,7 +130,9 @@ public class Map{
         do{
             popLoop = false;
             for (int i =0; i < enemies.size();i++){
-                if (Utilities.withinRange(new int[]{primaryDrone.getX()+enemies.get(i).getX()-enemies.get(i).getDiameterSize()/2,primaryDrone.getY()+enemies.get(i).getY()-enemies.get(i).getDiameterSize()/2},new int[]{Constants.WIDTH/2,Constants.HEIGHT/2}, primaryDrone.getScanRange())){
+                if (Utilities.withinRange(new int[]{primaryDrone.getX()+enemies.get(i).getX()-enemies.get(i)
+                    .getDiameterSize()/2,primaryDrone.getY()+enemies.get(i).getY()-enemies.get(i).getDiameterSize()/2},
+                    new int[]{Constants.WIDTH/2,Constants.HEIGHT/2}, primaryDrone.getScanRange())){
                     enemies.remove(i);
                     popLoop = true;
                 }

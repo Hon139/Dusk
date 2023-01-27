@@ -45,8 +45,6 @@ public class Ui{
         mainLayeredPane.add(backgroundImage,JLayeredPane.DEFAULT_LAYER);
     }   
 
-    public static void launchControlsScreen(){}
-
     public static void setupConsole(JPanel panel, JTextField textField, JLabel textHistory){
         int panelWidth = 500;
         int panelHeight = 200;
@@ -99,7 +97,32 @@ public class Ui{
         mainLayeredPane.add(foregroundLayer,JLayeredPane.PALETTE_LAYER);
     }
 
-    public static x(){}
+    public static void launchControlsMenu(JLayeredPane mainLayeredPane){
+        mainLayeredPane.removeAll();
+        setMenuBackground(mainLayeredPane);
+        
+        JLabel title = new JLabel("Controls"); 
+        title.setForeground(new Color(255,255,255,150));
+        title.setFont(Constants.TITLE_FONT);
+
+        JLabel bodyText = new JLabel("");
+        bodyText.setFont(Constants.MENU_FONT);
+        bodyText.setForeground(new Color(255,255,255));
+        bodyText.setText(
+            "<html>Objective: Survive as long as possible"+
+            "<br> Use WASD to move "+
+            "<br> Utilize tools through the console"+
+            "<br> Enemies will be hidden by deafult"+
+            "<br> COMANDS primaries: scan & blast"+
+            "<br> You can exit console focus with ESCAPE"+
+        "<html>");
+
+        JPanel foregroundLayer = new JPanel(new FlowLayout(FlowLayout.CENTER,1000,40)); 
+        FormatMenuForegroundPanel(foregroundLayer);
+        foregroundLayer.add(title);
+        foregroundLayer.add(bodyText); 
+        mainLayeredPane.add(foregroundLayer,JLayeredPane.PALETTE_LAYER);
+    }
 
     public static void launchMainMenu(JLayeredPane mainLayeredPane,JButton playButton, JButton controlsButton, JButton exitButton){
         mainLayeredPane.removeAll();
@@ -127,7 +150,4 @@ public class Ui{
         gamePanel.setBackground(Constants.GAME_BACKGROUND_COLOR);
         mainLayeredPane.add(gamePanel,JLayeredPane.PALETTE_LAYER);
     }
-
-
-
 }

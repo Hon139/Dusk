@@ -29,33 +29,49 @@ public class Enemy extends Entity{
         return createEnemyImage(enemyBaseColor);
     }
 
-    //Utilities.withinRange(new int[]{primaryDrone.getX()+i.getX(),primaryDrone.getY()+i.getY()},new int[]{Constants.WIDTH/2,Constants.HEIGHT/2}, primaryDrone.getDiameterSize()))
-
     public void makeAiChoice(Drone primaryDrone){
         if (this.getStepDistance() != 0){
-            this.move(new int[]{primaryDrone.getX()+this.getX()-this.getDiameterSize()/2,primaryDrone.getY()+this.getY()-this.getDiameterSize()/2});
+            this.move(new int[]{this.getX()+primaryDrone.getX(),this.getY()+primaryDrone.getY()},primaryDrone);
         }
     }
 
-    //{primaryDrone.getX()+i.getX()-i.getDiameterSize()/2,primaryDrone.getY()+i.getY()-i.getDiameterSize()/2},new int[]{Constants.WIDTH/2,Constants.HEIGHT/2}
-
-
-    public void move(int[] destinationCoord){
-        int xDiff = Constants.WIDTH/2-destinationCoord[0];
-        int yDiff = Constants.HEIGHT/2-destinationCoord[1];
+    public void move(int[] initialCoords, Drone primaryDrone){
+        int xDiff = (Constants.WIDTH/2-primaryDrone.getX())-initialCoords[0];
+        int yDiff = (Constants.HEIGHT/2-primaryDrone.getY())-initialCoords[1];
         int newX;
         int newY;
+        int directionX; 
+        int directionY; 
 
-        if (xDiff != 0 && yDiff != 0){
-        double angleRadians = Math.acos((yDiff/xDiff));
-        newX = (int)(Math.cos(angleRadians)*this.getStepDistance()+getX());
-        newY = (int)(Math.sin(angleRadians)*this.getStepDistance()+getY());
-        }else {
-            newX = (int)(-this.getStepDistance()+getX());
-            newY = (int)(-this.getStepDistance()+getY());
-            if (xDiff ==0 ){newX =getX();}
-            if (yDiff ==0 ){newY =getY();}
+        if ((Constants.WIDTH/2-primaryDrone.getX())> initialCoords[0]){
+            directionX = 1; 
+        } else if ((Constants.WIDTH/2-primaryDrone.getX()) < initialCoords[0]){
+            directionX = -1;       
+        } else {
+            directionX = 0; 
         }
+
+        if ((Constants.HEIGHT/2-primaryDrone.getY()) > initialCoords[1]){
+            directionY = 1; 
+        } else if ((Constants.HEIGHT/2-primaryDrone.getY()) < initialCoords[1]){
+            directionY = -1; 
+        } else {
+            directionY = 0;
+        }
+             
+        if (xDiff != 0 && yDiff != 0){
+            double angleRadians = Math.atan((yDiff/xDiff));
+            newX = (int)(directionX*Math.cos(angleRadians)*this.getStepDistance()+getX());
+            newY = (int)(directionY*Math.sin(angleRadians)*this.getStepDistance()+getY());
+        }else{
+            newX = (int)(directionX*this.getStepDistance()+getX());
+            newY = (int)(directionY*this.getStepDistance()+getY());
+            if (xDiff ==0){newX =getX();}
+            if (yDiff ==0){newY =getY();}
+        }
+
+        // System.out.println(newX+"  "+newY);
+        // System.out.println(getX()+"  "+getY()+"\n\n\n\n");
         this.setX(newX);
         this.setY(newY);
     }
