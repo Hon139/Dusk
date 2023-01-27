@@ -36,24 +36,24 @@ public class Enemy extends Entity{
     }
 
     public void move(int[] initialCoords, Drone primaryDrone){
-        int xDiff = (Constants.WIDTH/2-primaryDrone.getX())-initialCoords[0];
-        int yDiff = (Constants.HEIGHT/2-primaryDrone.getY())-initialCoords[1];
+        int xDiff = (Constants.WIDTH/2+primaryDrone.getX())-initialCoords[0];
+        int yDiff = (Constants.HEIGHT/2+primaryDrone.getY())-initialCoords[1];
         int newX;
         int newY;
         int directionX; 
         int directionY; 
 
-        if ((Constants.WIDTH/2-primaryDrone.getX())> initialCoords[0]){
+        if ((Constants.WIDTH/2+primaryDrone.getX())> initialCoords[0]){
             directionX = 1; 
-        } else if ((Constants.WIDTH/2-primaryDrone.getX()) < initialCoords[0]){
+        } else if ((Constants.WIDTH/2+primaryDrone.getX()) < initialCoords[0]){
             directionX = -1;       
         } else {
             directionX = 0; 
         }
 
-        if ((Constants.HEIGHT/2-primaryDrone.getY()) > initialCoords[1]){
+        if ((Constants.HEIGHT/2+primaryDrone.getY()) > initialCoords[1]){
             directionY = 1; 
-        } else if ((Constants.HEIGHT/2-primaryDrone.getY()) < initialCoords[1]){
+        } else if ((Constants.HEIGHT/2+primaryDrone.getY()) < initialCoords[1]){
             directionY = -1; 
         } else {
             directionY = 0;
