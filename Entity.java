@@ -39,12 +39,16 @@ abstract class Entity {
         return stepDistance;
     }
     
+    public void setStepDistance(int newStep){
+        this.stepDistance = newStep;
+    }
+
     public Image getImage(){
         return entityImage; 
     }
     
     // Utility method for drawing circles for drone & enemy class
-    protected static void drawCircle(Graphics2D g2d,int centerX,int centerY,int diameter){
+    protected static void drawCircleFromCenter(Graphics2D g2d,int centerX,int centerY,int diameter){
         int radius = diameter/2; 
         int startX = centerX - radius;
         int startY = centerY - radius;

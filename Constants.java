@@ -21,6 +21,7 @@ public class Constants{
     public static final int[] BORDER = {0,0,7000,5000}; //rect
     public static final int DRONE_SCAN_RADIUS = 500; 
     public static final int enemyDetectionRadius = 3000;
+    public static final int NOT_SCANNING_SPEED_BOOST = 10;
     private Constants(){
     }
 }

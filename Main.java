@@ -117,6 +117,9 @@ public class Main{
             }
             if (scanning == true){
                 map.scan();
+                map.getDrone().setStepDistance(Constants.DRONE_SPEED);
+            } else {
+                map.getDrone().setStepDistance(Constants.DRONE_SPEED+Constants.NOT_SCANNING_SPEED_BOOST);
             }
 
             if (map.getEnemiesLeft() < 3){

@@ -57,7 +57,7 @@ public class Drone extends Entity {
         g2d.setComposite(AlphaComposite.Src);
         g2d.setColor(Color.WHITE);
         g2d.setStroke(new BasicStroke(5));
-        drawCircle(g2d,width/2,height/2,100);
+        drawCircleFromCenter(g2d,width/2,height/2,100);
         g2d.drawLine(0,width/2,height,width/2);
         g2d.drawLine(height/2,20,height/2,width-20);
         g2d.drawLine(0,width/2,width-20,height/2+40);
